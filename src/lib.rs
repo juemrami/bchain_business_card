@@ -5,7 +5,6 @@
 
 // To conserve gas, efficient serialization is achieved through Borsh (http://borsh.io/)
 
-
 /* TODO:
  * ------------------------------
  * 0. Implement a better system for keeping track of supported blockchains.
@@ -49,7 +48,7 @@ pub struct JsonBusinessCard {
 pub struct BusinessCard{
     pub owner_id: AccountId,
     pub website_url: Option<String>,
-    pub blockchain_exp: Option<LookupMap<String, u32>>,
+    pub blockchain_exp: LookupMap<AccountId, u32>,
 }
 
 #[near_bindgen]
@@ -100,19 +99,14 @@ impl Contract {
                 None => panic!("No business card exists for this account."),
             }
         };
-        let mut blockchain_exp = {
-            match business_card.blockchain_exp {
-                Some(exp)=> exp,
-                None => LookupMap::new(b"s".to_vec()),
-            }
-        };
+        let mut blockchain_exp = business_card.blockchain_exp;
         if blockchain_exp.contains_key(&blockchain_name){
             panic!("This blockchain is already associated with this account.");
         }else{ 
             blockchain_exp.insert(&blockchain_name, &0);
             env::log(format!("Experience: {blockchain_name} added for account: {account_id}").as_bytes());
         }
-        business_card.blockchain_exp = Some(blockchain_exp);
+        business_card.blockchain_exp = blockchain_exp;
         self.records.insert(&account_id,&business_card );
         println!("Successfully added {} to {}", &blockchain_name, &account_id);
     }
@@ -133,12 +127,7 @@ impl Contract {
                 None => panic!("No business card exists for this account."),
             }
         };
-        let mut blockchain_exp = {
-            match business_card.blockchain_exp {
-                Some(exp)=> exp,
-                None => panic!("No expereince exist for this user."),
-            }
-        };
+        let mut blockchain_exp = business_card.blockchain_exp;
         match &blockchain_exp.contains_key(&blockchain_name){
            true => {
                let mut rating = blockchain_exp.get(&blockchain_name).unwrap().clone();
@@ -177,7 +166,7 @@ impl Contract {
         let business_card = BusinessCard{
             owner_id: account_id.clone(),
             website_url: None,
-            blockchain_exp: None,
+            blockchain_exp: LookupMap::new(b"s".to_vec()),
         };
         // Use env::log to record logs permanently to the blockchain!
         env::log(format!("New Business Card created for account:{}", &account_id).as_bytes());
@@ -272,7 +261,7 @@ mod tests {
                 None => panic!("No Record Found"),
             }
         };
-        let blockchain_exp = &business_card.blockchain_exp.unwrap();
+        let blockchain_exp = &business_card.blockchain_exp;
         println!("BusinessCard\n-------------------\nAccount Name: \t {}\nWebsite: \t {}", 
                   &business_card.owner_id, &business_card.website_url.unwrap());
         println!("NEAR: \t {}", &blockchain_exp.get(&"NEAR".to_string()).unwrap());
@@ -336,7 +325,7 @@ mod tests {
                 None => panic!("No Record Found"),
             }
         };
-        let rating = business_card.blockchain_exp.unwrap().get(&input).unwrap();
+        let rating = business_card.blockchain_exp.get(&input).unwrap();
         assert_eq!(rating, 0, "Test Fail, Ratings not equal");
 
     }
