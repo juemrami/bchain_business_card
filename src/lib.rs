@@ -26,6 +26,8 @@ use near_sdk::serde::{Serialize, Deserialize};
 use near_sdk::{env, near_bindgen, setup_alloc, PanicOnDefault, AccountId};
 
 setup_alloc!();
+
+//Json Struct for displaying to Future Frontend
 #[derive(Serialize, Deserialize)]
 #[serde(crate = "near_sdk::serde")]
 pub struct JsonBusinessCard {
@@ -33,14 +35,6 @@ pub struct JsonBusinessCard {
     website_url: Option<String>,
     experience: Vec<String>,
 }
-//      JSON STRUCTS FOR DISPLAYING DATA
-// #[derive(Serialize, Deserialize)]
-// #[serde(crate = "near_sdk::serde")]
-// pub struct BusinessCardJSON {
-// 	owner_id: AccountId,
-// 	website_url: Option<String>,
-//  experience: Vec<>,
-// }
 
 //A Business card contains Owner ID, Website URL, and Expereince
 //Expereience is a set of blockchains youve developed on with rating (given by others)
