@@ -1,5 +1,5 @@
 # Blockchain Business Card
-This is a relatively simple smart contract to implemented with a front end soon.
+This is a relatively simple smart contract to be implemented with a front end soon.
 
 The contract allows you to 'mint' a business card for 5 NEAR.
 Things you can do with you business card:
