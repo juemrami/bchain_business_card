@@ -6,6 +6,7 @@ Things you can do with you business card:
 - Add a website.
 - Display your NEAR account id.
 - Claim blockchain development experience.
+
 Once you declare your blockchain experience, others can then __vouch__ or __refute__ your claims.
 Your busines card will display your Net Vouches as a public rating.
 
