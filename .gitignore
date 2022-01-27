@@ -1,3 +1,4 @@
-/target
-Cargo.lock
+Contract/target
+Contract/res
+Contract/Cargo.lock
 /.vscode

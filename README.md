@@ -1,18 +1,13 @@
-# Created with Rust Smart Contract Template
+# Blockchain Business Card
+This is a relatively simple smart contract to implemented with a front end soon.
 
-## Getting started
+The contract allows you to 'mint' a business card for 5 NEAR.
+Things you can do with you business card:
+- add a website
+- display your near id
+- add blockchain dev experience
 
-To get started with this template:
+Once you declare your blockchain experience, others can then __vouch__ or __refute__ your claims.
+your busines card will display your Net Vouches as a public rating.
 
-Test the contract 
-
-    `cargo test -- --nocapture`
-
-Build the contract
-
-    `RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release`
-
-**Get more info at:**
-
-* [Rust Smart Contract Quick Start](https://docs.near.org/docs/develop/contracts/rust/intro)
-* [Rust SDK Book](https://www.near-sdk.io/)
+I have yet to figure out the economics. This was build for the NEARxEncode Bootcamp Jan 2022. 
