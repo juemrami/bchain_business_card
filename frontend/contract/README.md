@@ -35,7 +35,7 @@ Once you have followed all the instructions and set your `$CONTRACT` enviroment 
 
 This will call the `new()` method on the smart contract deployed onto the account created by the `dev-deploy.sh` script. 
 
-By passing in the same contract account name (ie `$CONTRACT`) as the `--acountId` argument, the contract invokes itself and is its own owner, saved on the `owner_id` feild of contracts main struct seen here in [src/lib.rs](src/lib.rs). Check it out explore the contract internals.
+_By passing in the same contract account name (ie `$CONTRACT`) as the `--acountId` argument, the contract invokes itself and is its own owner, saved onto the `owner_id` feild of the `Contract` main `struct`, seen here in [lib.rs](../../Contract/src/lib.rs). Check it out explore the contract internals._
 
 # Step 2
 
