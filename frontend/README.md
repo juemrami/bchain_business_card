@@ -6,9 +6,9 @@ or... TLDR. do the following:
 
 1. run `./contract/dev-deploy.sh`
 
-2. run `near call $CONTRACT new --accountId $CONTRACT` with the propper `$CONTRACT` set.
+2. run `near call $CONTRACT new --accountId $CONTRACT` with the proper `$CONTRACT` set.
 
-3. Set the propper contract account name in the `frontend/.env` file.
+3. Set the proper contract account name in the `frontend/.env` file.
 
 4. run 'yarn install'
 

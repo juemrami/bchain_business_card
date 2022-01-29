@@ -7,7 +7,7 @@ Please start there if you wish to start with creating smart contracts on rust. I
 If you would just like to play with the contract using Rust this is your place to start.
 If you would like do deploy the contract to testnet and have it ready for the frontend  see [`/frontend/contract/`](../frontend/contract/README.md)
 
-_MAKE SURE YOUR TERMINAL IS IN THE RIGHT DIRECTROY_.
+_MAKE SURE YOUR TERMINAL IS IN THE RIGHT DIRECTORY_.
 
 1. __Build the contract:__
 
@@ -28,6 +28,6 @@ _MAKE SURE YOUR TERMINAL IS IN THE RIGHT DIRECTROY_.
 **Get more info at:**
 
 * [NEAR Rust Smart Contract Quick Start](https://docs.near.org/docs/develop/contracts/rust/intro)
-* [The Rust NEAR-SDK Book](https://www.near-sdk.io/) - *highly reccomened*
+* [The Rust NEAR-SDK Book](https://www.near-sdk.io/) - *highly recommend*
 * [Testing NEAR Rust Smart Contracts](https://docs.near.org/docs/develop/contracts/rust/testing-rust-contracts)
-* [The Offcial Rust-Lang Book](https://doc.rust-lang.org/) - *essential*
+* [The Official Rust-Lang Book](https://doc.rust-lang.org/) - *essential*
