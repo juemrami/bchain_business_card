@@ -12,9 +12,9 @@ Things you can do with you business card:
 
 All Business Cards will display your Net Vouches as a public rating.
 
-To learn about the internals follow the README in [/Contract/](Contract/README.md)
+To learn about the internals and the Rust smart contracts follow the README in [/Contract/](Contract/README.md)
 
-To get started with deploying a contract and starting the fronted check the README [here in /frontend/](frontend/README.md).
+To get started with deploying the contract and starting up fronted check the README here in [/frontend/](frontend/README.md).
 
 __WARNING.__ - If you're on Windows please make sure you're on WSL (Windows Subsystem for Linux) and that your End of Line settings for files is set to `LF` and not `CRLF` on the, in particular for the  `.sh` script files, otherwise you might have trouble running the shell scripts.
 
