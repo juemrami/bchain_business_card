@@ -4,7 +4,9 @@ Before you run any scripts i encourage you to follow the [`README.md`](/frontend
 
 or... TLDR. do the following:
 
-1. run `./contract/dev-deploy.sh`
+_from within the `frontend/contract/` directory..._
+
+1. run `./dev-deploy.sh`
 
 2. run `near call $CONTRACT new --accountId $CONTRACT` with the proper `$CONTRACT` set.
 
