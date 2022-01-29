@@ -1,8 +1,7 @@
 # These scripts were created with the [near-sdk-as Starter Kit](https://github.com/Learn-NEAR/starter--near-sdk-as)
 
 Step 0. (OPTIONAL. The next step runs this same command this is just for insight on whats going on)
-    
-    Run the build-contract.sh command from the within this directory.
+Run the build-contract.sh command from the within this directory.
 
     `./build-contract.sh`
 
