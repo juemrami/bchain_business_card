@@ -1,8 +1,8 @@
 # This Frontend Was Created Using [AHA Labs Template for NEAR with REACT](https://github.com/AhaLabs/cra-template-near)
 
-Before you run any scripts please follow the [`README.md`](/frontend/contract/README.md) inside of the `/frontend/contract` directory.
+Before you run any scripts i encourage you to follow the [`README.md`](/frontend/contract/README.md) inside of the `/frontend/contract` directory.
 
-TLDR. do the following:
+or... TLDR. do the following:
 
 1. run `./contract/dev-deploy.sh`
 
