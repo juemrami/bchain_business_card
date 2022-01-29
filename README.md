@@ -8,10 +8,12 @@ Things you can do with you business card:
 - Add a website.
 - Display your NEAR account id.
 - Claim blockchain development experience.
+- Vouch and/or refute other business card holders personal claims.
 
-Once you declare your blockchain experience, others can then __vouch__ or __refute__ your claims.
-Your busines card will display your Net Vouches as a public rating.
+All Business Cards will display your Net Vouches as a public rating.
 
 I have yet to figure out the economics. This was built for the NEARxEncode Bootcamp Jan 2022.
 
-To run follow the README in [/Contract](Contract/README.md) first and then [/frontend](frontend/README.md).
+To learn about the internals follow the README in [/Contract/](Contract/README.md)
+
+To get started with deploying a contract and starting the fronted check the README [here in /frontend/](frontend/README.md).
