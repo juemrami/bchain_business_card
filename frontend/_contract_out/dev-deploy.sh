@@ -8,7 +8,7 @@ echo ---------------------------------------------------------
 echo "Step 0: Build the contract (may take a few seconds)"
 echo ---------------------------------------------------------
 echo
-
+./build-cont
 
 echo
 echo

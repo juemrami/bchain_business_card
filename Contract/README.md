@@ -7,7 +7,7 @@ Please start there if you wish to start with creating smart contracts on rust. I
 _MAKE SURE YOUR TERMINAL IS IN THE RIGHT DIRECTROY_.
 
 If you would just like to play with the contract using Rust and the NEAR CLI this is your place to strart.
-If you would like do deploy the contract and have it ready for the frontend  see [`/frontend/contract_out/`](../frontend/contract_out/).
+If you would like do deploy the contract and have it ready for the frontend  see [`/frontend/contract_out/`](../frontend/contract_out/README.md).
 
 1. When you're ready:
 
