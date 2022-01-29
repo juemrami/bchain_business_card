@@ -6,11 +6,13 @@ or... TLDR. do the following:
 
 1. run `./contract/dev-deploy.sh`
 
-2. Set the propper contract account name in the `frontend/.env`
+2. run `near call $CONTRACT new --accountId $CONTRACT` with the propper `$CONTRACT` set.
 
-3. run 'yarn install'
+3. Set the propper contract account name in the `frontend/.env` file.
 
-4. run 'yarn start'
+4. run 'yarn install'
+
+5. run 'yarn start'
 
 ------
 ## Screenshots
