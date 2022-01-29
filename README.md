@@ -16,6 +16,8 @@ __To learn about the internals and the Rust smart contracts follow the README in
 
 __To get started with deploying the contract and starting up fronted check the README here in [/frontend/](frontend/README.md)__
 
+-----
+
 __WARNING.__ - If you're on Windows please make sure you're on WSL (Windows Subsystem for Linux) and that your End of Line settings for files is set to `LF` and not `CRLF` on the, in particular for the  `.sh` script files, otherwise you might have trouble running the shell scripts.
 
 _Note. I have yet to figure out the economics. But it would be interesting to budget the amount of times you can claim experience via time gating and ask the users to pay a small fee if they want to add additional experience within that time period. Or if a cards Net Vouches reaches 0, we could remove that experience from that card and the owner would have to pay to reclaim that experience._ 
