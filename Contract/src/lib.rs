@@ -49,7 +49,7 @@ pub struct JsonBusinessCard {
 pub struct BusinessCard {
     pub owner_id: AccountId,
     pub website_url: Option<String>,
-    pub blockchain_exp: HashMap<AccountId, i32>,
+    pub blockchain_exp: HashMap<String, i32>,
 }
 
 #[near_bindgen]

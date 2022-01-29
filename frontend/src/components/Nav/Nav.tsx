@@ -5,7 +5,7 @@ import { contract, wallet } from "../../utils/near";
 // import pkg from "../../../package.json";
 import styles from "./Nav.module.css";
 
-function signIn() {
+export function signIn() {
   wallet.requestSignIn({
     contractId: process.env.REACT_APP_CONTRACT_NAME,
     // pass methodNames to request access to only these

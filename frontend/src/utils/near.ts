@@ -2,7 +2,6 @@ import * as near_api from "near-api-js";
 
 // TODO: remove pending https://github.com/near/near-api-js/issues/757
 import { Buffer } from "buffer";
-import { Contract } from "near-api-js";
 window.Buffer = Buffer;
 
 /**
@@ -43,19 +42,26 @@ export const wallet = new near_api.WalletConnection(
  * directly. This is what `naj.Contract` does under the hood, and these
  * lower-level functions have more explicit (and typed!) APIs.
  */
+
 export const contract  = new near_api.Contract(
   wallet.account(),
   process.env.REACT_APP_CONTRACT_NAME!,
   {
     viewMethods: ["get_card"],
-    changeMethods: ["set_website","add_blockchain","vouch","refute","create_new_card"],
+    changeMethods: [
+      "set_website",
+      "add_blockchain",
+      "vouch",
+      "refute",
+      "create_new_card",
+    ],
   }
 );
-export interface contractInterface extends Contract{
-  set_website:(any) => void,
-  add_blockchain:(any) => void,
-  vouch: (any) => void,
-  refute: (any) => void,
-  create_new_card:(any) => void,
-  get_card: (any) => any,
-}
+// export interface contractInterface extends Contract{
+//   set_website:(any) => void,
+//   add_blockchain:(any) => void,
+//   vouch: (any) => void,
+//   refute: (any) => void,
+//   create_new_card:(any) => void,
+//   get_card: (any) => any,
+// }
