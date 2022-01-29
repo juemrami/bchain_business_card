@@ -6,13 +6,17 @@ TLDR. do the following:
 
 1. run `./contract/dev-deploy.sh`
 
-2. Set the propper contract name in `.env`
+2. Set the propper contract account name in the `frontend/.env`
 
 3. run 'yarn install'
 
 4. run 'yarn start'
 
 ------
+## Screenshots
+![image](https://user-images.githubusercontent.com/20932280/151669727-2078e002-857f-4af3-a071-59c3870da2c8.png)
+
+-----
 
 ## Available Scripts
 
@@ -51,8 +55,3 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
