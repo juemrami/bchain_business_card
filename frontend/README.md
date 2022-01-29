@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# This Frontend Was Created Using [AHA Labs Template for NEAR with REACT](https://github.com/AhaLabs/cra-template-near)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Before you run any scripts please follow the [`README.md` inside of the `/frontend/contract` folder.](/frontend/contract/README.md)
 
 ## Available Scripts
 
