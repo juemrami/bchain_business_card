@@ -17,7 +17,8 @@ echo
 echo
 echo
 echo ---------------------------------------------------------
-echo "Step 1: Delete $CONTRACT, setting $BENEFICIARY as beneficiary"
+echo "Step 1: Deleting $CONTRACT"
+echo "Any contract balance will transfered to $BENEFICIARY"
 echo ---------------------------------------------------------
 echo
 
