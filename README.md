@@ -17,3 +17,5 @@ I have yet to figure out the economics. This was built for the NEARxEncode Bootc
 To learn about the internals follow the README in [/Contract/](Contract/README.md)
 
 To get started with deploying a contract and starting the fronted check the README [here in /frontend/](frontend/README.md).
+
+__WARNING.__ - if you're on Windows please make you're on WSL (Windows Subsystem for Linux) and make that your End of Line settings for files is set to LF and not CRLF on the .sh script files, otherwise you might have trouble running the shell scripts.
