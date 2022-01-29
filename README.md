@@ -12,9 +12,12 @@ Things you can do with you business card:
 
 All Business Cards will display your Net Vouches as a public rating.
 
+__To get started with deploying the contract and starting up fronted check the README here in [/frontend/](frontend/README.md)__
+
+Alternatively
+
 __To learn about the internals and the Rust smart contracts follow the README in [/Contract/](Contract/README.md)__
 
-__To get started with deploying the contract and starting up fronted check the README here in [/frontend/](frontend/README.md)__
 
 -----
 
