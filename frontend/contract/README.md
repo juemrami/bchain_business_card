@@ -65,3 +65,7 @@ _Note. Make sure you set an account as a beneficiary with `export $BENEFICIARY=m
 This script will delete the development account created by `near dev-deploy` which was ran from within the script in __Step 1__ and transfer any NEAR currency in the account to the `$BENEFICIARY` account. (free testnet money!).
 
 It will also delete `/contract/neardev` directory and its contents.
+
+**Get more info at:**
+
+* [NEAR CLI Docs](https://docs.near.org/docs/tools/near-cli)
