@@ -10,7 +10,7 @@ Things you can do with you business card:
 - Claim blockchain development experience.
 - Vouch and/or refute other business card holders personal claims.
 
-All Business Cards will display your Net Vouches as a public rating.
+All Business Cards will display their respective Net Vouches as a public rating.
 
 __To get started with deploying the contract and starting up fronted check the README here in [/frontend/](frontend/README.md)__
 
