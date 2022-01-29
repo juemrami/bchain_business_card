@@ -15,7 +15,7 @@ use std::collections::HashMap;
  * 1. Setup create_card() so that you can pass optional agruments like website and 1 blockchain
  *    so that we dont have make as many calls in the futur
  *
- * 2. Keep track of vouches and refutes seperately instead of having an overall rating score.
+ * 2. Keep track of vouches and refutes separately instead of having an overall rating score.
  *
  * 3. Make it so that only people who you have authorized (maybe someone youve done work for)
  *    can vouch/refute you blockchain experience.
@@ -42,8 +42,8 @@ pub struct JsonBusinessCard {
     experience: Vec<String>,
 }
 
-//A Business card contains Owner ID, Website URL, and Expereince
-//Expereience is a set of blockchains youve developed on with rating (given by others)
+//A Business card contains Owner ID, Website URL, and Experience
+//Experience is a set of blockchains youve developed on with rating (given by others)
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize, PanicOnDefault)]
 #[serde(crate = "near_sdk::serde")]
 pub struct BusinessCard {

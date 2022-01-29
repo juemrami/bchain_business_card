@@ -19,18 +19,19 @@ export function App() {
   });
   useEffect(() => {
     if (currentUser) {
+      console.log(`Render triggered. Re-fetching business card.`)
       getCard();
     }
   }, []);
   const getCard = async () => {
-    console.log("trying to get card");
+    console.log(`Attempting to get card for ${currentUser}`);
     const res = await contract.get_card({ account_id: currentUser });
     console.log(res);
     //debugger;
     setCard(res);
   };
   const newCard = async () => {
-    console.log(currentUser);
+    console.log(`Creating new Card on  ${contract.contractId} for ${currentUser}` );
     if (currentUser == null) {
       await signIn();
       await contract.create_new_card(
@@ -48,10 +49,10 @@ export function App() {
           .times(10 ** 24)
           .toFixed()
       );
-      console.log(`the contract id is: ${contract.contractId}`);
     }
   };
   const addBlockchainExp = async () => {
+    console.log(`Attempting to add ${bchainInput} for ${currentUser}`)
     await contract.add_blockchain(
       { blockchain_name: bchainInput },
       BOATLOAD_OF_GAS
@@ -59,10 +60,12 @@ export function App() {
     await getCard();
   };
   const addWebsite = async () => {
+    console.log(`Attempting to website ${websiteInput} for ${currentUser}`)
     await contract.set_website({ url: websiteInput }, BOATLOAD_OF_GAS);
     await getCard();
   };
   const vouch = async (blockchain) => {
+    console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`)
     await contract.vouch(
       { card_owner_id: card.owner_id, blockchain_name: blockchain },
       BOATLOAD_OF_GAS
@@ -70,6 +73,7 @@ export function App() {
     await getCard();
   };
   const refute = async (blockchain) => {
+    console.log(`Attempting to refute ${card.owner_id} on ${blockchain} experience.`)
     await contract.refute(
       { card_owner_id: card.owner_id, blockchain_name: blockchain },
       BOATLOAD_OF_GAS
@@ -119,17 +123,17 @@ export function App() {
               <br></br>
             </div>
             <p>
-              I reccomend browsing this demo with developer tools open{" "}
+              I recommend browsing this demo with developer tools open{" "}
               <code>ctrl+shift+i</code> usually{" "}
             </p>
             <p>
-              Also be carefull with spamming buttons i current have no "loading
+              Also be careful with spamming buttons i current have no "loading
               animations" so you might be sending multiple requests
             </p>
             <h2>Update Your Business Card</h2>
             <div>
               <label>
-                Try adding a blockchain youve developed on. Or try crashing it.
+                Try adding a blockchain you've developed on. Or try crashing it.
                 <input
                   placeholder="blockchain name"
                   onChange={(e) => setBchainInput(e.target.value)}
@@ -157,7 +161,7 @@ export function App() {
               <br></br>
               <h2>Claimed Experience</h2>
               <p>
-                The idea is that other accounts should be able to judge wethere
+                The idea is that other accounts should be able to judge wether
                 or not you posses the skills you claim. but for the purposes of
                 this demo you can vouch and refute your own claims{" "}
               </p>

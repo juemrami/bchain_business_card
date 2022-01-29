@@ -26,8 +26,9 @@ export function Nav() {
       <h1 className={styles.title}>
         <img src={nearLogo} alt="NEAR" /> {"Block Cards"}
       </h1>
+      <span>{contract.contractId ? (<>contract id: {contract.contractId}</>): '' }</span>
       <span>
-        {contract.contractId ? (<>contract id: {contract.contractId}</>): '' }
+        
         {currentUser ? (
           <>
             {currentUser} <button onClick={signOut}>Sign Out</button>
