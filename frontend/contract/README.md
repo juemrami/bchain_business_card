@@ -1,6 +1,6 @@
 # These scripts were created with the [near-sdk-as Starter Kit](https://github.com/Learn-NEAR/starter--near-sdk-as)
 
-Step 0. (OPTIONAL. The next step runs this same command this is just for insight on whats going on)
+0. (OPTIONAL. The next step runs this same command this is just for insight on whats going on)
 Run the build-contract.sh command from the within this directory.
 
     `./build-contract.sh`
@@ -21,7 +21,7 @@ Step 1. Run the dev-deploy.sh script to execute the Near CLI commands that deplo
 
     By passing in the same contract account name (ie `$CONTRACT`) as the `--acountId` argument, the contract invokes itself and is its own owner saved on the `ownder_id` feild of contract stores main struct.
 
-Step 2. Before You can build the frontend we have to set the correct `.env` variable for the account id the contract is deployed onto. You can see workspace varaible you set for the contract account id with `echo $CONTRACT`. There should also be new folder generated in this directory called `/neardev/` with the account id as well.
+2. Before You can build the frontend we have to set the correct `.env` variable for the account id the contract is deployed onto. You can see workspace varaible you set for the contract account id with `echo $CONTRACT`. There should also be new folder generated in this directory called `/neardev/` with the account id as well.
 
     Make sure the correct contract account id is set on the `REACT_APP_CONTRACT_NAME` environment variable within [`frontend/.env`](../.env)
 
@@ -33,4 +33,4 @@ Step 2. Before You can build the frontend we have to set the correct `.env` vari
 
     `yarn start`
 
-Step 3. Play with App on the Browser!
+3. Play with App on the Browser!
