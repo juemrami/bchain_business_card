@@ -19,10 +19,10 @@ export function App() {
   });
   useEffect(() => {
     if (currentUser) {
-      console.log(`Render triggered. Re-fetching business card.`)
+      console.log(`New Render triggered. Re-fetching business card.`)
       getCard();
     }
-  }, []);
+  }, [currentUser]);
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUser}`);
     const res = await contract.get_card({ account_id: currentUser });
