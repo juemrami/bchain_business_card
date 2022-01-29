@@ -30,5 +30,6 @@ echo "Step 2: Clean up project folders"
 echo ---------------------------------------------------------
 echo
 rm -r ./neardev
+rm ./wasm32_out/*.wasm
 
 exit 0
