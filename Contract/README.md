@@ -4,24 +4,22 @@ Please start there if you wish to start with creating smart contracts on rust. I
 
 ## Getting started
 
+If you would just like to play with the contract using Rust and the NEAR CLI this is your place to start.
+If you would like do deploy the contract and have it ready for the frontend  see [`/frontend/contract_out/`](../frontend/contract_out/README.md)
+
 _MAKE SURE YOUR TERMINAL IS IN THE RIGHT DIRECTROY_.
 
-If you would just like to play with the contract using Rust and the NEAR CLI this is your place to strart.
-If you would like do deploy the contract and have it ready for the frontend  see [`/frontend/contract_out/`](../frontend/contract_out/README.md).
-
-1. When you're ready:
-
-    Build the contract
+1. __Build the contract:__
 
     `RUSTFLAGS='-C link-arg=-s' cargo build --target wasm32-unknown-unknown --release`
 
-    This compiles a webassembly or `wasm` library/binary build from the Rust smart contract.
+    This compiles a webassembly or `wasm` file which contains the logic of the contract found in `src/lib.rs`
+    
+    
+    _I encourage you to check the lib.rs file and look at the methods under `#[cfg(test)]` to what these next tests that we will execute actually do._
 
-    __I encourage you to check the lib.rs file and look at the `#[test]` to what the test that we will execute actually do.__
 
-2. When you're ready:
-
-   Test the contract
+2. __Test the contract:__
 
    This will run all the test while display macros like `pintln!()` in the contract code with the `--nocapture` option.
 
@@ -29,5 +27,7 @@ If you would like do deploy the contract and have it ready for the frontend  see
 
 **Get more info at:**
 
-* [Rust Smart Contract Quick Start](https://docs.near.org/docs/develop/contracts/rust/intro)
-* [Rust SDK Book](https://www.near-sdk.io/)
+* [NEAR Rust Smart Contract Quick Start](https://docs.near.org/docs/develop/contracts/rust/intro)
+* [The Rust NEAR-SDK Book](https://www.near-sdk.io/) - *highly reccomened*
+* [Testing NEAR Rust Smart Contracts](https://docs.near.org/docs/develop/contracts/rust/testing-rust-contracts)
+* [The Offcial Rust-Lang Book](https://doc.rust-lang.org/) - *essential*
