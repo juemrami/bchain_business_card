@@ -1,6 +1,18 @@
 # This Frontend Was Created Using [AHA Labs Template for NEAR with REACT](https://github.com/AhaLabs/cra-template-near)
 
-Before you run any scripts please follow the [`README.md` inside of the `/frontend/contract` folder.](/frontend/contract/README.md)
+Before you run any scripts please follow the [`README.md`](/frontend/contract/README.md) inside of the `/frontend/contract` directory.
+
+TLDR. do the following:
+
+1. run `./contract/dev-deploy.sh`
+
+2. Set the propper contract name in `.env`
+
+3. run 'yarn install'
+
+4. run 'yarn start'
+
+------
 
 ## Available Scripts
 
