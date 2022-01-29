@@ -8,6 +8,7 @@ echo ---------------------------------------------------------
 echo "Step 1: Build the contract (may take a few seconds)"
 echo ---------------------------------------------------------
 echo
+
 ./build-contract.sh
 
 echo
@@ -20,19 +21,20 @@ echo
 near dev-deploy wasm32_out/contract.wasm
 
 echo
-echo
-echo ---------------------------------------------------------
+echo -----------------------------------------------------------------------------
 echo "Step 3: Prepare your environment"
 echo
-echo "(a) find the contract (account) name in the message above"
-echo "    it will look like this: [ Account id: dev-###-### ]"
+echo "(1) Find YOUR contract (account) name in the message above"
+echo "    it will look like: 'Done deploying to dev-1231231231231-12312312312312'"
 echo
-echo "(b) set an environment variable using this account name"
+echo "(2) set an environment variable using this account name"
 echo "    see example below (this may not work on Windows)"
 echo
-echo ---------------------------------------------------------
-echo 'export CONTRACT=<dev-123-456>'
-echo ---------------------------------------------------------
+echo -----------------------------------------------------------------------------
+echo "example:"
+echo
+echo 'export CONTRACT=dev-1231231231231-12312312312312'
+echo -----------------------------------------------------------------------------
 echo
 
 exit 0

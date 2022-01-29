@@ -113,44 +113,71 @@ export function App() {
         <br></br>
         {card.owner_id && (
           <>
-            {/* <div>
-              <button onClick={() => getCard()}>get card</button>
+            <div>
+              <h3>Your Business Card as JSON</h3>
               <div>{card.owner_id ? JSON.stringify(card) : ""}</div>
               <br></br>
-            </div> */}
+            </div>
+            <p>
+              I reccomend browsing this demo with developer tools open{" "}
+              <code>ctrl+shift+i</code> usually{" "}
+            </p>
+            <p>
+              Also be carefull with spamming buttons i current have no "loading
+              animations" so you might be sending multiple requests
+            </p>
+            <h2>Update Your Business Card</h2>
             <div>
-              <input
-                placeholder="blockchain name"
-                onChange={(e) => setBchainInput(e.target.value)}
-              />
+              <label>
+                Try adding a blockchain youve developed on. Or try crashing it.
+                <input
+                  placeholder="blockchain name"
+                  onChange={(e) => setBchainInput(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      setBchainInput(e.target.value);
+                    }
+                  }}
+                />
+              </label>
               <button onClick={() => addBlockchainExp()}>add blockchain</button>
             </div>
             <div>
-              <input
-                placeholder="website url"
-                onChange={(e) => setWebsiteInput(e.target.value)}
-              />
+              <label>
+                {" "}
+                Enter a website to display on your business ward.
+                <input
+                  placeholder="website url"
+                  onChange={(e) => setWebsiteInput(e.target.value)}
+                />
+              </label>
               <button onClick={() => addWebsite()}>set website</button>
             </div>
             <div>
               <br></br>
               <h2>Claimed Experience</h2>
+              <p>
+                The idea is that other accounts should be able to judge wethere
+                or not you posses the skills you claim. but for the purposes of
+                this demo you can vouch and refute your own claims{" "}
+              </p>
               <>
-                {Object.keys(card.blockchain_exp).map((key, index) => {
-                  return (
-                    <div key={index}>
-                      <p>
-                        {key.toString()}: {card.blockchain_exp[key]}
-                      </p>
-                      <button onClick={() => vouch(key.toString())}>
-                        vouch
-                      </button>
-                      <button onClick={() => refute(key.toString())}>
-                        refute
-                      </button>
-                    </div>
-                  );
-                })}
+                <ul>
+                  {Object.keys(card.blockchain_exp).map((key, index) => {
+                    return (
+                      <li key={index}>
+                        <h2>{key.toString()}</h2>{" "}
+                        <p>Net Vouches: {card.blockchain_exp[key]}</p>
+                        <button onClick={() => vouch(key.toString())}>
+                          vouch
+                        </button>
+                        <button onClick={() => refute(key.toString())}>
+                          refute
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
               </>
             </div>
           </>

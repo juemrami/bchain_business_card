@@ -25,3 +25,6 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 
+addsd
+frontend/contract/neardev/dev-account
+frontend/contract/neardev/dev-account.env
