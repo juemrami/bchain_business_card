@@ -1,6 +1,6 @@
 # Blockchain Business Card
 
-**WARNING**. This branch is my active development branch for trying to implement nextjs with this project and the NEAR API. check out the main branch. some of the files here are possibly outdated compared to the main branch.
+**WARNING**. _This branch is my active development branch for trying to implement nextjs with this project and the NEAR API. check out the main branch. some of the files here are possibly outdated compared to the main branch_.
 
 This is a relatively simple smart contract implemented with a front end.
 
