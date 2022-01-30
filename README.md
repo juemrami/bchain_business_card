@@ -1,5 +1,7 @@
 # Blockchain Business Card
 
+**WARNING**. This branch is my active development branch for trying to implement nextjs with this project and the NEAR API. check out the main branch. some of the files here are possibly outdated compared to the main branch.
+
 This is a relatively simple smart contract implemented with a front end.
 
 The contract allows you to _"mint"_ a business card for 5 NEAR.
