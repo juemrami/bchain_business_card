@@ -78,8 +78,8 @@ export default function Home() {
       console.log(`found`);
       console.log(wallet);
 
-      wallet.getAccountId()
-        ? setCurrentUser(wallet.getAccountId())
+      wallet?.getAccountId()
+        ? setCurrentUser(wallet?.getAccountId())
         : console.log(
             `wallet found but no keys for current wallet_connection exist.
              User must log in and save a key.`

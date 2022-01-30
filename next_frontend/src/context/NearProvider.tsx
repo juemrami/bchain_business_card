@@ -1,5 +1,5 @@
 // Packages //
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState, useEffect, useContext, createContext, Context } from "react";
 import {
   keyStores,
   connect,
@@ -8,12 +8,15 @@ import {
   Contract,
 } from "near-api-js";
 
-interface nearContext {
-  near: typeof Near;
-  wallet: typeof WalletConnection;
-  contract?: any;
+interface NearContext{
+  near:  Near;
+  wallet:  WalletConnection;
+  contract?: Contract;
 }
-export const NearContext: nearContext = createContext(null);
+export const NearContext = createContext<NearContext>({
+  near: null,
+  wallet: null,
+});
 
 export function useNear() {
   return useContext(NearContext);
