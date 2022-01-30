@@ -3,7 +3,7 @@ Contract/res
 Contract/Cargo.lock
 /.vscode
 
-frontend/*
+_frontend/*
 # dependencies
 frontend/node_modules
 frontend/*.pnp
