@@ -3,25 +3,34 @@ Contract/res
 Contract/Cargo.lock
 /.vscode
 
+frontend/*
 # dependencies
 frontend/node_modules
 frontend/*.pnp
 frontend/*.pnp.js
 
+
 # testing
-frontend/coverage
+next_frontend/coverage
+
+# next.js
+next_frontend/.next/
+next_frontend/out/
 
 # production
 frontend/build
 
 # misc
-frontend/.DS_Store
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
+next_frontend/.DS_Store
+next_frontend/.env.local
+next_frontend/.env.development.local
+next_frontend/.env.test.local
+next_frontend/.env.production.local
+next_frontend/*.pem
 
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
+next_frontend/npm-debug.log*
+next_frontend/yarn-debug.log*
+next_frontend/yarn-error.log*
+
+next_frontend/.vercel
 
