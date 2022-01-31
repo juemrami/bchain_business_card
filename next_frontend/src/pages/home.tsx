@@ -68,18 +68,15 @@ export interface NearProps {
 // }
 
 export default function Home() {
-  const { wallet } = useContext(NearContext);
-
-  let [currentUser, setCurrentUser] = useState(null);
+  const { wallet, currentUserId, contract } = useNear();
 
   useEffect(() => {
     console.log(`fetching wallet...`);
     if (wallet) {
       console.log(`found`);
       console.log(wallet);
-
-      wallet?.getAccountId()
-        ? setCurrentUser(wallet?.getAccountId())
+      currentUserId
+        ? console.log(`logged in user key found: ${currentUserId}`)
         : console.log(
             `wallet found but no keys for current wallet_connection exist.
              User must log in and save a key.`
@@ -87,9 +84,13 @@ export default function Home() {
     } else {
       console.log(`wallet not found...yet`);
     }
+
+    console.log(contract)
   }, [wallet]);
 
-  
+  useEffect(() => {
+      console.log("fetching contract object")
+  }, [contract]);
 
   let [bchainInput, setBchainInput] = useState("");
   let [websiteInput, setWebsiteInput] = useState("");
@@ -101,7 +102,10 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-5xl">{`Hello ${currentUser || ''}`} </h1>
+      <h1 className="text-5xl">{`Hello ${currentUserId || ""}`} </h1>
+      <div className="mt-[2rem] text-lg border-solid border-black border-4 w-[30rem] h-80">
+        {contract?.contractId}
+      </div>
     </>
   );
 }

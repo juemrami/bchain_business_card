@@ -4,7 +4,7 @@ import { contract, wallet } from "../../../utils/near";
 import { Big } from "big.js";
 import { useState } from "react";
 import { signIn } from "../../Nav";
-import { initNear } from "../utils/_near";
+import { initNear } from "../depracated__utils/_near";
 const BOATLOAD_OF_GAS = Big(3)
   .times(10 ** 13)
   .toFixed();

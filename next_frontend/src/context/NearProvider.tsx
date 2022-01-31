@@ -8,14 +8,16 @@ import {
   Contract,
 } from "near-api-js";
 
-interface NearContext{
-  near:  Near;
-  wallet:  WalletConnection;
+interface NearContext {
+  near: Near;
+  wallet: WalletConnection;
   contract?: Contract;
+  currentUserId?: String;
 }
 export const NearContext = createContext<NearContext>({
   near: null,
   wallet: null,
+  contract: null,
 });
 
 export function useNear() {
@@ -26,6 +28,7 @@ export function NearProvider({ children }) {
   const [near, setNear] = useState(undefined);
   const [wallet, setWallet] = useState(undefined);
   const [contract, setContract] = useState(undefined);
+  const [currentUserId, setCurrentUserId] = useState(undefined);
 
   useEffect(() => {
     (async function init() {
@@ -61,6 +64,7 @@ export function NearProvider({ children }) {
         );
         setContract(contract);
       }
+      setCurrentUserId(wallet_connection.getAccountId());
       setNear(near_connection);
       setWallet(wallet_connection);
     })();
@@ -70,6 +74,7 @@ export function NearProvider({ children }) {
     near,
     wallet,
     contract,
+    currentUserId,
   };
 
   return (

@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
-// import reactLogo from "./react-logo.svg";
 import nearLogo from "./near-logo.svg";
 import { useNear } from "../../context/NearProvider";
-// import pkg from "../../../package.json";
 import styles from "./Nav.module.css";
+import Image from "next/image";
 
-
-export function Nav({wallet, contract}) {
-  let currentUser = wallet
+export function Nav() {
+  let { wallet, contract } = useNear();
+  useEffect(() => {
+    console.log(wallet);
+  }, [wallet]);
 
   function signIn() {
     wallet.requestSignIn({
@@ -17,26 +18,82 @@ export function Nav({wallet, contract}) {
       methodNames: [],
     });
   }
-  
+
   function signOut() {
     wallet.signOut();
     window.location.replace(window.location.origin + window.location.pathname);
   }
   return (
-    <nav className={styles.nav}>
-      <h1 className={styles.title}>
-        <img src={nearLogo} alt="NEAR" /> {"Block Cards"}
-      </h1>
-      <span>
-        {contract.contractId ? (<>contract id: {contract.contractId}</>): '' }
-        {currentUser ? (
+    <nav
+      id="3-Element-Navbar"
+      className="grid grid-cols-3 
+        items-center gap-1 
+        w-full max-h-[55px] h-full 
+        shadow-lg col-auto"
+    >
+      <section id="Left" className="flex flex-row self-center h-full">
+        <Image className="flex" src={nearLogo} height={50} width={50} />
+        <h1 className="flex pt-1.5 text-3xl font-extrabold font-mono">
+          {"Block Cards"}
+        </h1>
+      </section>
+
+      <section id="Center" className="max-h-[50px] grid grid-row-2">
+        {contract?.contractId ? (
           <>
-            {currentUser} <button onClick={signOut}>Sign Out</button>
+            <span
+              className="self-start justify-self-center 
+            max-w-35  font-semibold text-sm font-mono"
+            >
+              {wallet?.getAccountId() ? (
+                <>Connected to: &#x1F91D; </>
+              ) : (
+                <>Connect to? &#x1F914;</>
+              )}
+            </span>
+            <a
+              target="_blank"
+              className="justify-self-center hover:(underline)"
+              href={`https://stats.gallery/testnet/${contract.contractId}/contract`}
+            >{`${contract.contractId}`}</a>
           </>
         ) : (
-          <button onClick={signIn}>Sign In</button>
+          <></>
         )}
-      </span>
+      </section>
+
+      <section
+        id="Right"
+        className="max-h-[50px] h-full pr-[40px] 
+          flex items-center justify-end  text-xl 
+          "
+      >
+        {wallet?.getAccountId() ? (
+          <button
+            className="flex items-center justify-center 
+            font-mono font-semibold text-white
+            bg-black
+            border-solid rounded-w-lg border-black border-3
+            h-[34px] w-[110px]
+            hover:(border-gray-400)"
+            onClick={signOut}
+          >
+            Sign Out
+          </button>
+        ) : (
+          <button
+            className="flex items-center justify-center 
+            font-thin text-white
+            bg-black
+            border-solid rounded-lg border-black border-3
+            h-[34px] w-[110px]
+            hover:(border-gray-400 bg-dark-200)"
+            onClick={signIn}
+          >
+            Sign in
+          </button>
+        )}
+      </section>
     </nav>
   );
 }

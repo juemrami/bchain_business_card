@@ -1,4 +1,5 @@
-import "tailwindcss/tailwind.css";
+import "windi.css";
+import "../styles/globals.css";
 import { keyStores, connect, WalletConnection } from "near-api-js";
 import { useEffect, useState } from "react";
 import Head from "next/head";
@@ -9,7 +10,7 @@ function MyApp({ Component, pageProps }) {
     <>
       <Head>
         <title>Business Card</title>
-        <meta name="description" content="expose yourself" />
+        <meta name="description" content="expose yourself" charSet="UTF-8" />
         <link rel="icon" href="../../public/favicon.ico" />
       </Head>
       <NearProvider>
