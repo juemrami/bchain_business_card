@@ -33,13 +33,9 @@ export function HomePage() {
     } else {
       console.log(`wallet not found...yet`);
     }
-
-    console.log(currentUser);
+    // console.log(currentUser);
   }, [wallet]);
 
-  let [contract, setContract] = useState({
-    contractId: null,
-  });
   let [bchainInput, setBchainInput] = useState("");
   let [websiteInput, setWebsiteInput] = useState("");
   let [card, setCard] = useState({
@@ -47,7 +43,9 @@ export function HomePage() {
     owner_id: null,
     website_url: null,
   });
-
+  let [contract, setContract] = useState({
+    contractId: null,
+  });
   useEffect(() => {
     if (_contract) setContract(_contract);
   }, [_contract]);
@@ -61,10 +59,13 @@ export function HomePage() {
 
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUser}`);
-    const res = await contract.get_card({ account_id: currentUser });
-    console.log(res);
-    //debugger;
-    setCard(res);
+    try {
+      const res = await contract.get_card({ account_id: currentUser });
+      console.log(res);
+      setCard(res);
+    } catch (error) {
+      console.log(error);
+    }
   };
   const newCard = async () => {
     console.log(
