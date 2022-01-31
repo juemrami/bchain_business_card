@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import nearLogo from "./near-logo.svg";
 import { useNear } from "../../context/NearProvider";
-import styles from "./Nav.module.css";
 import Image from "next/image";
 
-export function Nav() {
+export const Nav = () => {
   let { wallet, contract } = useNear();
   useEffect(() => {
     console.log(wallet);
@@ -46,9 +45,13 @@ export function Nav() {
             max-w-35  font-semibold text-sm font-mono"
             >
               {wallet?.getAccountId() ? (
-                <>Connected to: &#x1F91D; </>
+                <>
+                  Connected to: <span className="text-md">&#x1F91D;</span>{" "}
+                </>
               ) : (
-                <>Connect to? &#x1F914;</>
+                <>
+                  Connect to?<span className="text-md"> &#x1F914;</span>
+                </>
               )}
             </span>
             <a
@@ -71,11 +74,11 @@ export function Nav() {
         {wallet?.getAccountId() ? (
           <button
             className="flex items-center justify-center 
-            font-mono font-semibold text-white
+            font-thin text-white
             bg-black
-            border-solid rounded-w-lg border-black border-3
-            h-[34px] w-[110px]
-            hover:(border-gray-400)"
+            border-solid rounded-w-lg border-black border-2
+            h-[34px] w-[110px] pb-[2px]
+            hover:(border-danger  text-danger font-semibold bg-light-600)"
             onClick={signOut}
           >
             Sign Out
@@ -85,9 +88,9 @@ export function Nav() {
             className="flex items-center justify-center 
             font-thin text-white
             bg-black
-            border-solid rounded-lg border-black border-3
-            h-[34px] w-[110px]
-            hover:(border-gray-400 bg-dark-200)"
+            border-solid rounded-lg border-black border-[2.5px]
+            h-[34px] w-[110px] pb-[2px]
+            hover:(border-near-blue text-near-blue font-semibold bg-light-600)"
             onClick={signIn}
           >
             Sign in
@@ -96,4 +99,4 @@ export function Nav() {
       </section>
     </nav>
   );
-}
+};

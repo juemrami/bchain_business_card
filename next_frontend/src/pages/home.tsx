@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Nav } from "../containers/Nav";
+import { Nav } from "../containers/Nav/Nav";
 //import { contract, wallet } from "../utils/near";
 import { Big } from "big.js";
 import { useState, createContext } from "react";

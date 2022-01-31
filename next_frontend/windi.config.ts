@@ -14,9 +14,9 @@ export default defineConfig({
   theme: {
     extend: {
       colors: {
-        "near-blue": "#5F8AFA",
+        "near-blue": "#0072CE",
         success: "#218838",
-        danger: "#DC3545",
+        danger: "#a80c19",
         "modal-bg": "rgba(0,0,0,0.4)",
       },
     },

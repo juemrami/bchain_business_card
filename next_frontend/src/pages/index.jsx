@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Nav } from "../containers/Nav";
+import { Nav } from "../containers/Nav/Nav";
 import { Big } from "big.js";
 import { useState } from "react";
 import dynamic from "next/dynamic";
