@@ -20,16 +20,15 @@ next_frontend/out/
 frontend/build
 
 # misc
-next_frontend/.DS_Store
-next_frontend/.env.local
-next_frontend/.env.development.local
-next_frontend/.env.test.local
-next_frontend/.env.production.local
-next_frontend/*.pem
+frontend/.DS_Store
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/*.pem
 
-next_frontend/npm-debug.log*
-next_frontend/yarn-debug.log*
-next_frontend/yarn-error.log*
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
 
-next_frontend/.vercel
+frontend/.vercel
 
