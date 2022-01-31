@@ -33,7 +33,7 @@ export function HomePage() {
       console.log(`wallet not found...yet`);
     }
 
-    console.log(contract);
+    console.log(currentUser);
   }, [wallet]);
 
   let [contract, setContract] = useState({
@@ -48,16 +48,15 @@ export function HomePage() {
   });
 
   useEffect(() => {
-    if(_contract) setContract(_contract);
+    if (_contract) setContract(_contract);
   }, [_contract]);
 
-  // useEffect(() => {
-  //   if (currentUser) {
-  //     console.log(`New Render triggered. Re-fetching business card.`);
-  //     getCard();
-  //   }
-  // }, [currentUser]);
-
+  useEffect(() => {
+    if (currentUser) {
+      console.log(`New Render triggered. Re-fetching business card.`);
+      getCard();
+    }
+  }, [currentUser]);
 
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUser}`);
@@ -123,36 +122,43 @@ export function HomePage() {
   return (
     <>
       <Nav />
-      <main className="container">
-        <>
-          {currentUser != null ? (
-            <h1>Welcome {currentUser.split(".").shift()}</h1>
+      <main className="container mt-10 ml-10">
+        <h1 id="welcome-header" className="text-5xl">
+          Welcome,{" "}
+          {(currentUser != "") & (currentUser != null) ? (
+            <>{currentUser.split(".").shift()}.</>
           ) : (
-            <>
-              <h1>Welcome</h1>
-              <br></br>
-              <p>Please login first at the top right corner.</p>
-            </>
+            <p className=" font-$Times font-black text-xl mt-3 pl-[3px]">
+              Please login first at the top right corner.
+            </p>
           )}
-        </>
+        </h1>
 
         {currentUser && (
-          <div>
+          <section id="create-card-prompt">
             {card.owner_id == null ? (
               <>
-                <p>
+                <p className=" font-$Times font-bg-dark-200 text-xl mt-3 pl-[3px]">
                   {
                     "We dont seem to have any information saved for you. Would you like to deploy a business card to the blockchain?"
                   }
                 </p>
-                <button onClick={() => newCard()}>
+                <button
+                  className="flex items-center justify-center 
+                  font-thin text-white
+                  bg-black
+                  border-solid rounded-lg border-black border-[2.5px]
+                  h-[34px] w-max pb-[2px] pl-[8px] pr-[8px] mt-5
+                  hover:(border-black text-black bg-light-600)"
+                  onClick={() => newCard()}
+                >
                   Create a Business Card
                 </button>
               </>
             ) : (
               ""
             )}
-          </div>
+          </section>
         )}
         <br></br>
         {card.owner_id && (
