@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
-import { Nav } from "../containers/Nav/Nav";
+import { Nav } from "../components/Nav";
 import { Big } from "big.js";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useNear } from "../context/NearProvider";
 
-const _contract = dynamic(
-  () => {
-    return import("../depracated__utils/near").then((mod) => mod.contract);
-  },
-  { ssr: false }
-);
+// const _contract = dynamic(
+//   () => {
+//     return import("../depracated__utils/near").then((mod) => mod.contract);
+//   },
+//   { ssr: false }
+// );
+
 const BOATLOAD_OF_GAS = Big(3)
   .times(10 ** 13)
   .toFixed();
@@ -121,7 +122,6 @@ export function HomePage() {
 
   return (
     <>
-      <Nav />
       <main className="container mt-10 ml-10">
         <h1 id="welcome-header" className="text-5xl">
           Welcome,{" "}

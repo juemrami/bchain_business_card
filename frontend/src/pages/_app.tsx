@@ -1,9 +1,8 @@
 import "windi.css";
 import "../styles/globals.css";
-import { keyStores, connect, WalletConnection } from "near-api-js";
-import { useEffect, useState } from "react";
 import Head from "next/head";
 import { NearProvider } from "../context/NearProvider";
+import { Nav } from "../components/Nav";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -14,6 +13,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="../../public/favicon.ico" />
       </Head>
       <NearProvider>
+        <Nav />
         <Component {...pageProps} />;
       </NearProvider>
     </>
