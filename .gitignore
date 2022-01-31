@@ -1,6 +1,11 @@
+#This git ignore is for the entire project frontend and backend.
+
+# Rust
 Contract/target
 Contract/res
 Contract/Cargo.lock
+
+# user vscode settings
 /.vscode
 
 # dependencies
@@ -8,13 +13,12 @@ frontend/node_modules
 frontend/*.pnp
 frontend/*.pnp.js
 
-
 # testing
 next_frontend/coverage
 
 # next.js
-next_frontend/.next/
-next_frontend/out/
+frontend/.next/
+frontend/out/
 
 # production
 frontend/build
@@ -23,7 +27,7 @@ frontend/build
 frontend/.DS_Store
 frontend/.env.development.local
 frontend/.env.test.local
-frontend/.env.production.local
+frontend/.env.production
 frontend/*.pem
 
 frontend/npm-debug.log*
