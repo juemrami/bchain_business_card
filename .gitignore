@@ -36,3 +36,6 @@ frontend/yarn-error.log*
 
 frontend/.vercel
 
+frontend/contract/neardev/dev-account
+frontend/contract/neardev/dev-account.env
+frontend/contract/wasm32_out/contract.wasm
