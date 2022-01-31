@@ -10,7 +10,6 @@ module.exports = {
     "standard",
     "next/core-web-vitals",
     "plugin:typescript-eslint/recommended",
-
     "plugin:prettier/recommended",
     "plugin:node/recommended",
     "prettier"
