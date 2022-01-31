@@ -6,6 +6,7 @@ import {
   WalletConnection,
   Near,
   Contract,
+  utils,
 } from "near-api-js";
 
 interface NearContext {
@@ -75,6 +76,24 @@ export function NearProvider({ children }) {
     wallet,
     contract,
     currentUserId,
+  };
+
+  const viewFunction = async (functionName, args = {}) => {
+    const result = await wallet
+      .account()
+      .viewFunction(process.env.NEXT_PUBLIC_CONTRACT_NAME, functionName, args);
+
+    return result;
+  };
+
+  const callFunction = async (functionName, args = {}, deposit = "0") => {
+    const result = await wallet.account().functionCall({
+      contractId: process.env.NEXT_PUBLIC_CONTRACT_NAME,
+      methodName: functionName,
+      args: args,
+      attachedDeposit: utils.format.parseNearAmount(deposit),
+    });
+    return result;
   };
 
   return (
