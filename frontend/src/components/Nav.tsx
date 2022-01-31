@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import nearLogo from "../../../public/near-logo.svg";
+import nearLogo from "../public/near-logo.svg";
 import { useNear } from "../context/NearProvider";
 import Image from "next/image";
 
