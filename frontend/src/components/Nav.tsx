@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import nearLogo from "../public/near-logo.svg";
 import { useNear } from "../context/NearProvider";
 import Image from "next/image";
+import { Console } from "console";
 
 export const Nav = () => {
   let { wallet, contract } = useNear();
@@ -10,8 +11,9 @@ export const Nav = () => {
   }, [wallet]);
 
   function signIn() {
+    console.log();
     wallet.requestSignIn({
-      contractId: process.env.REACT_APP_CONTRACT_NAME,
+      contractId: process.env.NEXT_PUBLIC_CONTRACT_NAME,
       // pass methodNames to request access to only these
       // (empty array means requesting access to all)
       methodNames: [],
