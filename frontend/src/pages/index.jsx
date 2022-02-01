@@ -5,6 +5,7 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useNear } from '../context/NearProvider'
 import { BallTriangle } from 'react-loading-icons'
+import { UserBusinessCard } from '../components/UserBusinessCard'
 
 // const _contract = dynamic(
 //   () => {
@@ -75,8 +76,7 @@ export function HomePage() {
     console.log(`Attempting to get card for ${currentUser}`)
     try {
       const res = await contract.get_card({ account_id: currentUser })
-      console.log(res)
-      setCard(res)
+      setCard(res).then(() => setErrorFlag(false))
     } catch (error) {
       setErrorFlag(true)
       console.log(error)
@@ -203,7 +203,13 @@ export function HomePage() {
               <h1 className="font-mono text-xl">
                 Your Business Card &#x1F4C7;{' '}
               </h1>
-              <div>{card.owner_id ? JSON.stringify(card) : ''}</div>
+              <div>
+                {card.owner_id ? (
+                  <UserBusinessCard card={card}></UserBusinessCard>
+                ) : (
+                  <BallTriangle></BallTriangle>
+                )}
+              </div>
             </section>
             <section
               id="demo-description-text"
@@ -212,7 +218,7 @@ export function HomePage() {
               <p>
                 I{' '}
                 {errorFlag && (
-                  <span className="text-danger font-lg">HIGHLY </span>
+                  <span className="text-danger font-bold font-lg">HIGHLY </span>
                 )}
                 recommend browsing this demo with developer tools open.{' '}
                 <code className="bg-gray-200 rounded-sm text-black ml-[5px] mr-[5px]">
@@ -250,7 +256,6 @@ export function HomePage() {
                     }}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
-                        console.log('keypress')
                         addBlockchainExp()
                       }
                     }}
@@ -284,7 +289,6 @@ export function HomePage() {
                     }}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
-                        console.log('keypress')
                         addWebsite()
                       }
                     }}
