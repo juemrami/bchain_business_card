@@ -20,7 +20,7 @@ const styles = {
   font-thin text-white
   bg-black
   border-solid rounded-lg border-black border-[2.5px]
-  h-[34px] w-max pb-[2px] pl-[8px] pr-[8px] mt-5
+  h-[34px] w-max pb-[2px] pl-[8px] pr-[8px]
   hover:(border-black text-black bg-light-600)`,
   inputButton: `flex items-center justify-center 
   font-thin text-white
@@ -110,11 +110,13 @@ export function HomePage() {
     try {
       await contract
         .add_blockchain({ blockchain_name: bchainInput }, BOATLOAD_OF_GAS)
-        .then(() => setLoadingState(false))
+        .then(() => setErrorFlag(false))
       await getCard().then()
-    } catch (error) {}
+    } catch (error) {
+      setErrorFlag(true)
+      console.log(error)
+    }
     setLoadingState(false)
-    setErrorFlag(true)
   }
   const addWebsite = async () => {
     console.log(`Attempting to website ${websiteInput} for ${currentUser}`)
@@ -198,7 +200,7 @@ export function HomePage() {
         {card.owner_id && (
           <>
             <section id="display-business-card">
-              <h1 className="font-mono text-lg">
+              <h1 className="font-mono text-xl">
                 Your Business Card &#x1F4C7;{' '}
               </h1>
               <div>{card.owner_id ? JSON.stringify(card) : ''}</div>
@@ -208,24 +210,27 @@ export function HomePage() {
               className="pt-[1.5rem] text-gray-500"
             >
               <p>
-                I recommend browsing this demo with developer tools open.{' '}
+                I{' '}
+                {errorFlag && (
+                  <span className="text-danger font-lg">HIGHLY </span>
+                )}
+                recommend browsing this demo with developer tools open.{' '}
                 <code className="bg-gray-200 rounded-sm text-black ml-[5px] mr-[5px]">
                   ctrl+shift+i
                 </code>{' '}
                 usually.{' '}
               </p>
               <p className=" text-gray-500">
-                Also be careful with spamming buttons since I currently have no
-                loading animations or spinners for when transactions are sent so
-                you might be sending multiple requests.
+                Also be careful with spamming buttons you might be sending
+                multiple requests.
               </p>
             </section>
             <section id="update-business-card" className="pt-[1.5rem]">
-              <h2 className="font-mono text-lg">
+              <h2 className="font-mono text-xl">
                 Update Your Business Card &#x270D;
               </h2>
-              <div id="add-blockchain-input" className="grid-rows-2 mt-2">
-                <label className="">
+              <div id="add-blockchain-input" className="grid-rows-2 mt-1">
+                <label className="text-gray-500">
                   Try adding a blockchain you've developed on.
                 </label>
                 <div
@@ -234,8 +239,15 @@ export function HomePage() {
                 >
                   <input
                     placeholder="blockchain name"
-                    className="rounded-lg rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-near-blue border-2)"
-                    onChange={(e) => setBchainInput(e.target.value)}
+                    className={`rounded-lg ${
+                      errorFlag
+                        ? ' focus:border-2 border-danger'
+                        : 'border-near-blue'
+                    } rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-2)`}
+                    onChange={(e) => {
+                      setErrorFlag(false)
+                      setBchainInput(e.target.value)
+                    }}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         console.log('keypress')
@@ -252,7 +264,7 @@ export function HomePage() {
                 </div>
               </div>
               <div id="add-website-input" className="grid-rows-2 mt-2">
-                <label className="">
+                <label className="text-gray-500">
                   Or enter a website to display on your business card.
                 </label>
                 <div
@@ -261,12 +273,19 @@ export function HomePage() {
                 >
                   <input
                     placeholder="website url"
-                    className="rounded-lg rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-near-blue border-2)"
-                    onChange={(e) => setWebsiteInput(e.target.value)}
+                    className={`rounded-lg ${
+                      errorFlag
+                        ? ' focus:border-2 border-danger'
+                        : 'border-near-blue'
+                    } rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-2)`}
+                    onChange={(e) => {
+                      setErrorFlag(false)
+                      setWebsiteInput(e.target.value)
+                    }}
                     onKeyPress={(e) => {
                       if (e.key === 'Enter') {
                         console.log('keypress')
-                        addBlockchainExp()
+                        addWebsite()
                       }
                     }}
                   />
@@ -279,33 +298,82 @@ export function HomePage() {
                 </div>
               </div>
             </section>
-            <div>
-              <br></br>
-              <h2>Claimed Experience &#x1F4AF;</h2>
-              <p>
-                The idea is that other accounts should be able to judge wether
-                or not you posses the skills you claim. but for the purposes of
-                this demo you can vouch and refute your own claims{' '}
-              </p>
-              <>
-                <ul>
+            <section id="experience-section" className="pt-[1.5rem]">
+              <h2 className="font-mono text-xl">
+                Claimed Experience &#x1F4AF;
+              </h2>
+              <section>
+                <p className="text-gray-500">
+                  The idea is that other accounts should be able to judge wether
+                  or not you posses the skills you claim. but for the purposes
+                  of this demo you can vouch and refute your own claims{' '}
+                </p>
+
+                <section
+                  id="experience-cards"
+                  className="grid gap-4 
+                grid-flow-row  auto-rows-max auto-cols-max
+                grid-cols-3
+                pt-3
+                w-900px h-max"
+                >
                   {Object.keys(card.blockchain_exp).map((key, index) => {
                     return (
-                      <li key={index}>
-                        <h2>{key.toString()}</h2>{' '}
-                        <p>Net Vouches: {card.blockchain_exp[key]}</p>
-                        <button onClick={() => vouch(key.toString())}>
-                          vouch
-                        </button>
-                        <button onClick={() => refute(key.toString())}>
-                          refute
-                        </button>
+                      <li
+                        key={index}
+                        className="border-4 rounded-md border-black h-[120px] max-w-[235px]  grid-cols-2 flex justify-between"
+                      >
+                        <div
+                          id="experience-container"
+                          className="flex flex-col
+                        w-full border-solid  pr-[10px]"
+                        >
+                          <h2
+                            id="blockchain-name"
+                            className="
+                            flex flex-col
+                            border-3 border-black border-t-[0px] border-l-[0px]
+                            font-mono font-black text-lg font-extrabold
+                            self-center
+                            h-min w-full"
+                          >
+                            <span className="self-center">
+                              {key.toString()}
+                            </span>
+                          </h2>
+                          <span
+                            className=" text-gray-500
+                          self-center mt-5"
+                          >
+                            Net Vouches:{' '}
+                            <span
+                              className="pl-1 pr-2 
+                            font-mono font-bold text-xl text-black"
+                            >
+                              {card.blockchain_exp[key]}
+                            </span>
+                          </span>
+                        </div>
+                        <div className="flex-col flex w-min justify-between pr-[10px] py-[10px]">
+                          <button
+                            className={styles.button}
+                            onClick={() => vouch(key.toString())}
+                          >
+                            vouch
+                          </button>
+                          <button
+                            className={styles.button}
+                            onClick={() => refute(key.toString())}
+                          >
+                            refute
+                          </button>
+                        </div>
                       </li>
                     )
                   })}
-                </ul>
-              </>
-            </div>
+                </section>
+              </section>
+            </section>
           </>
         )}
       </main>
