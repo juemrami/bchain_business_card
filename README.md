@@ -18,6 +18,10 @@ Alternatively,
 
 __To learn about the internals and the Rust smart contracts follow the README in [/Contract/](Contract/README.md)__
 
+------
+## Screenshots
+
+![site gif](https://i.imgur.com/46Xg4AJ.gif)
 
 -----
 
