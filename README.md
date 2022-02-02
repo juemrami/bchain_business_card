@@ -18,11 +18,6 @@ Alternatively,
 
 __To learn about the internals and the Rust smart contracts follow the README in [/Contract/](Contract/README.md)__
 
-------
-## Screenshots
-
-![site gif](https://i.imgur.com/46Xg4AJ.gif)
-
 -----
 
 __WARNING.__ - If you're on Windows please make sure you're using WSL2 (Windows Subsystem for Linux) and that your End of Line settings for files is set to `LF` and not `CRLF` on the, in particular for the  `.sh` script files, otherwise you might have trouble running the shell scripts.
