@@ -76,7 +76,10 @@ export function HomePage() {
     console.log(`Attempting to get card for ${currentUser}`)
     try {
       const res = await contract.get_card({ account_id: currentUser })
-      setCard(res).then(() => setErrorFlag(false))
+      if (res) {
+        setCard(res)
+        setErrorFlag(false)
+      }
     } catch (error) {
       setErrorFlag(true)
       console.log(error)
@@ -324,7 +327,7 @@ export function HomePage() {
                   {Object.keys(card.blockchain_exp).map((key, index) => {
                     return (
                       <li
-                        key={index}
+                        key={`${key}-vote`}
                         className="border-4 rounded-md border-black h-[120px] max-w-[235px]  grid-cols-2 flex justify-between"
                       >
                         <div
