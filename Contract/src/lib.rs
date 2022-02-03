@@ -29,7 +29,7 @@ use near_sdk::serde::{Deserialize, Serialize};
 use near_sdk::{env, near_bindgen, setup_alloc, AccountId, PanicOnDefault};
 
 setup_alloc!();
-// fn ntoy(near_amount: u128) -> U128 {
+// fn as_yocto(near_amount: u128) -> U128 {
 //     U128(near_amount * 10u128.pow(24))
 // }
 
@@ -64,7 +64,7 @@ fn ntoy(near_amount: u128) -> U128 {
 #[near_bindgen]
 impl Contract {
     #[init]
-    
+
     pub fn new() -> Self {
         Self {
             owner_id: "juemrami.testnet".to_string(),
@@ -185,7 +185,11 @@ impl Contract {
     #[payable]
     pub fn create_new_card(&mut self) {
         let account_id = env::signer_account_id();
-        assert_eq!(env::attached_deposit(), ntoy(5).into(), "Incorrect deposit amount. Cost to create a card is 5 NEAR");
+        assert_eq!(
+            env::attached_deposit(),
+            ntoy(5).into(),
+            "Incorrect deposit amount. Cost to create a card is 5 NEAR"
+        );
         assert!(
             self.records.contains_key(&account_id.to_string()) == false,
             "Business card for this account already exists."
@@ -211,7 +215,6 @@ impl Contract {
             None => panic!("No business card exists for this account."),
         }
     }
-    
 }
 
 /*
@@ -244,7 +247,8 @@ mod tests {
                 None => ValidAccountId::try_from("bob_near".to_string()).unwrap(),
             })
             .is_view(is_view)
-            .attached_deposit(ntoy(5).into()).build()
+            .attached_deposit(ntoy(5).into())
+            .build()
     }
 
     #[test]
@@ -260,9 +264,9 @@ mod tests {
         // let account_id = &context.signer_account_id.clone();
         testing_env!(context);
         let mut contract = Contract::new();
-        
-        //1st Signer 
-        
+
+        //1st Signer
+
         contract.create_new_card();
         let input_url = "www.example.com".to_string();
         contract.set_website(input_url.clone());
@@ -314,8 +318,6 @@ mod tests {
         for (key, value) in &business_card.blockchain_exp {
             println!("{},\t Net vouches: {}", key, value);
         }
-
-
     }
     #[test]
     fn populate_card() {

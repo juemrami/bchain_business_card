@@ -1,8 +1,8 @@
-import "windi.css";
-import "../styles/globals.css";
-import Head from "next/head";
-import { NearProvider } from "../context/NearProvider";
-import { Nav } from "../components/Nav";
+import 'windi.css'
+import '../styles/globals.css'
+import Head from 'next/head'
+import { NearProvider } from '../context/NearProvider'
+import { Nav } from '../components/Nav'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -14,10 +14,10 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <NearProvider>
         <Nav />
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </NearProvider>
     </>
-  );
+  )
 }
 
-export default MyApp;
+export default MyApp

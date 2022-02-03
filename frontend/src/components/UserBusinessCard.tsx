@@ -15,7 +15,7 @@ export const UserBusinessCard = (props: ComponentProps) => {
         className=" rounded-lg 
             bg-warm-gray-100
             px-[30px] pt-[10px] pb-[5px]
-            max-w-[500px] h-[260px]
+            w-[500px] h-[260px]
             grid grid-rows-8"
       >
         <h1
@@ -54,7 +54,7 @@ export const UserBusinessCard = (props: ComponentProps) => {
           {Object.keys(card.blockchain_exp).map((key, index) => {
             return (
               <div key={key} id="experience-container" className="h-max w-min ">
-                {card.blockchain_exp[key] != 0 ? (
+                {card.blockchain_exp[key] ? (
                   <>
                     <span
                       id="blockchain-name"
@@ -73,10 +73,10 @@ export const UserBusinessCard = (props: ComponentProps) => {
                   <></>
                 )}
               </div>
-            );
+            )
           })}
         </section>
       </div>
     </>
-  );
+  )
 };

@@ -17,7 +17,7 @@ export const Nav = () => {
       // pass methodNames to request access to only these
       // (empty array means requesting access to all)
       methodNames: [],
-    });
+    })
   }
 
   function signOut() {

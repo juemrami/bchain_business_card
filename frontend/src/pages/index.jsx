@@ -1,12 +1,10 @@
-import React, { useEffect } from 'react'
-import { Nav } from '../components/Nav'
-import { Big } from 'big.js'
-import { useState } from 'react'
-import dynamic from 'next/dynamic'
-import { useNear } from '../context/NearProvider'
-import { BallTriangle } from 'react-loading-icons'
-import { UserBusinessCard } from '../components/UserBusinessCard'
-
+import React, { useEffect } from "react";
+import { Big } from "big.js";
+import { useState } from "react";
+import { useNear } from "../context/NearProvider";
+import { BallTriangle } from "react-loading-icons";
+import { UserBusinessCard } from "../components/UserBusinessCard";
+import ErrorBox from "../components/ErrorBox";
 // const _contract = dynamic(
 //   () => {
 //     return import("../depracated__utils/near").then((mod) => mod.contract);
@@ -15,7 +13,7 @@ import { UserBusinessCard } from '../components/UserBusinessCard'
 // );
 const BOATLOAD_OF_GAS = Big(3)
   .times(10 ** 13)
-  .toFixed()
+  .toFixed();
 const styles = {
   button: `flex items-center justify-center 
   font-thin text-white
@@ -29,129 +27,168 @@ const styles = {
   border-solid rounded-lg border-black border-[2.5px] rounded-l-[0px]
   h-[35px] w-max pb-[2px] pl-[8px] pr-[8px]
   hover:(border-black text-black bg-light-600)`,
-}
+};
 export function HomePage() {
-  let { wallet, currentUserId: currentUser, contract: _contract } = useNear()
+  let { wallet, currentUserId: currentUser, contract: _contract } = useNear();
 
   useEffect(() => {
-    console.log(`fetching wallet...`)
+    console.log(`fetching wallet...`);
     if (wallet) {
-      console.log(`found`)
-      console.log(wallet)
+      console.log(`found`);
+      console.log(wallet);
       currentUser || null
         ? console.log(`logged in user key found: ${currentUser}`)
         : console.log(
             `wallet found but no keys for current wallet_connection exist.
-             User must log in and save a key.`,
-          )
+             User must log in and save a key.`
+          );
     } else {
-      console.log(`wallet not found...yet`)
+      console.log(`wallet not found...yet`);
     }
     // console.log(currentUser);
-  }, [wallet])
-  let [loadingState, setLoadingState] = useState(false)
-  let [errorFlag, setErrorFlag] = useState(false)
-  let [bchainInput, setBchainInput] = useState('')
-  let [websiteInput, setWebsiteInput] = useState('')
+  }, [wallet]);
+  let [loadingState, setLoadingState] = useState(false);
+  let [errorFlag, setErrorFlag] = useState(false);
+  let [err, setErr] = useState(null);
+  let [bchainInput, setBchainInput] = useState("");
+  let [websiteInput, setWebsiteInput] = useState("");
   let [card, setCard] = useState({
     blockchain_exp: {},
     owner_id: null,
     website_url: null,
-  })
+  });
+  let errors = [];
   let [contract, setContract] = useState({
     contractId: null,
-  })
+  });
   useEffect(() => {
-    if (_contract) setContract(_contract)
-  }, [_contract])
-
+    if (_contract) setContract(_contract);
+  }, [_contract]);
+  useEffect(() => {
+    console.log(err);
+  }, [err]);
   useEffect(() => {
     if (currentUser) {
-      console.log(`New Render triggered. Re-fetching business card.`)
-      getCard()
+      console.log(`New Render triggered. Re-fetching business card.`);
+      getCard();
     }
-  }, [currentUser])
-
+  }, [currentUser]);
+  useEffect(() => {
+    if (errorFlag & (errors.length > 0)) {
+      console.log("smart contract errors found");
+      console.log(errors);
+      error = errors.shift();
+      console.log(error);
+      setErr(error);
+    }
+  }, [errorFlag]);
   const getCard = async () => {
-    console.log(`Attempting to get card for ${currentUser}`)
+    console.log(`Attempting to get card for ${currentUser}`);
     try {
-      const res = await contract.get_card({ account_id: currentUser })
+      const res = await contract.get_card({ account_id: currentUser });
       if (res) {
-        setCard(res)
-        setErrorFlag(false)
+        setCard(res);
       }
     } catch (error) {
-      setErrorFlag(true)
-      console.log(error)
+      errors.push(error);
+      setErrorFlag(true);
+      console.log(error);
     }
-  }
+  };
   const newCard = async () => {
     console.log(
-      `Creating new Card on  ${contract.contractId} for ${currentUser}`,
-    )
+      `Creating new Card on  ${contract.contractId} for ${currentUser}`
+    );
     if (currentUser == null) {
       await contract.create_new_card(
         {},
         BOATLOAD_OF_GAS,
         Big(5)
           .times(10 ** 24)
-          .toFixed(),
-      )
+          .toFixed()
+      );
     } else {
       await contract.create_new_card(
         {},
         BOATLOAD_OF_GAS,
         Big(5)
           .times(10 ** 24)
-          .toFixed(),
-      )
+          .toFixed()
+      );
     }
-  }
+  };
   const addBlockchainExp = async () => {
-    console.log(`Attempting to add ${bchainInput} for ${currentUser}`)
-    setLoadingState(true)
+    console.log(`Attempting to add ${bchainInput} for ${currentUser}`);
+    setLoadingState(true);
     try {
       await contract
         .add_blockchain({ blockchain_name: bchainInput }, BOATLOAD_OF_GAS)
-        .then(() => setErrorFlag(false))
-      await getCard().then()
+        .then(() => setErrorFlag(false));
+      getCard();
     } catch (error) {
-      setErrorFlag(true)
-      console.log(error)
+      errors.push(error);
+      setErrorFlag(true);
+      console.log(error);
     }
-    setLoadingState(false)
-  }
+    setLoadingState(false);
+  };
   const addWebsite = async () => {
-    console.log(`Attempting to website ${websiteInput} for ${currentUser}`)
-    setLoadingState(true)
+    console.log(`Attempting to website ${websiteInput} for ${currentUser}`);
+    setLoadingState(true);
     await contract
       .set_website({ url: websiteInput }, BOATLOAD_OF_GAS)
-      .then(() => setLoadingState(false))
-    await getCard()
-  }
+      .then(() => setLoadingState(false));
+    await getCard();
+  };
   const vouch = async (blockchain) => {
-    console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`)
-    setLoadingState(true)
+    console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`);
+    setLoadingState(true);
     await contract
       .vouch(
         { card_owner_id: card.owner_id, blockchain_name: blockchain },
-        BOATLOAD_OF_GAS,
+        BOATLOAD_OF_GAS
       )
-      .then(() => setLoadingState(false))
-    await getCard()
-  }
+      .then(() => setLoadingState(false));
+    await getCard();
+  };
   const refute = async (blockchain) => {
     console.log(
-      `Attempting to refute ${card.owner_id} on ${blockchain} experience.`,
-    )
-    setLoadingState(true)
+      `Attempting to refute ${card.owner_id} on ${blockchain} experience.`
+    );
+    setLoadingState(true);
     await contract
       .refute(
         { card_owner_id: card.owner_id, blockchain_name: blockchain },
-        BOATLOAD_OF_GAS,
+        BOATLOAD_OF_GAS
       )
-      .then(() => setLoadingState(false))
-    await getCard()
+      .then(() => setLoadingState(false));
+    await getCard();
+  };
+
+  if (loadingState || currentUser === undefined) {
+    return (
+      <div className="flex justify-center flex-1 h-[calc(100vh-50px)] flex-col items-center">
+        <BallTriangle
+          fill={errorFlag ? "danger" : "near-blue"}
+          speed={!errorFlag ? 1.5 : 0}
+          className=""
+        />
+        {/* <>
+          {console.log(err)}
+          {err && (
+            <>
+              <>{console.log(err)}</>
+              <ErrorBox
+                error={err}
+                errorClear={() => {
+                  setErrorFlag(false);
+                }}
+              ></ErrorBox>
+            </>
+          )}
+        </> */}
+      </div>
+    );
   }
 
   return (
@@ -161,7 +198,7 @@ export function HomePage() {
           {loadingState ? (
             <div className="flex justify-center h-[48px]">
               <BallTriangle
-                fill={errorFlag ? 'danger' : 'near-blue'}
+                fill={errorFlag ? "danger" : "near-blue"}
                 speed={1.2}
                 className=""
               />
@@ -169,9 +206,9 @@ export function HomePage() {
           ) : (
             <>
               <h1 id="welcome-header" className="text-5xl">
-                Welcome,{' '}
-                {(currentUser != '') & (currentUser != null) ? (
-                  <>{currentUser.split('.').shift()}.</>
+                Welcome,{" "}
+                {(currentUser != "") & (currentUser != null) ? (
+                  <>{currentUser.split(".").shift()}.</>
                 ) : (
                   <p className=" font-$Times font-black text-xl mt-3 pl-[3px]">
                     Please login first at the top right corner.
@@ -188,7 +225,7 @@ export function HomePage() {
               <>
                 <p className=" font-$Times font-bg-dark-200 text-xl mt-3 pl-[3px]">
                   {
-                    'We dont seem to have any information saved for you. Would you like to deploy a business card to the blockchain?'
+                    "We dont seem to have any information saved for you. Would you like to deploy a business card to the blockchain?"
                   }
                 </p>
                 <button className={styles.button} onClick={() => newCard()}>
@@ -196,7 +233,7 @@ export function HomePage() {
                 </button>
               </>
             ) : (
-              ''
+              ""
             )}
           </section>
         )}
@@ -204,7 +241,7 @@ export function HomePage() {
           <>
             <section id="display-business-card">
               <h1 className="font-mono text-xl">
-                Your Business Card &#x1F4C7;{' '}
+                Your Business Card &#x1F4C7;{" "}
               </h1>
               <div>
                 {card.owner_id ? (
@@ -219,15 +256,15 @@ export function HomePage() {
               className="pt-[1.5rem] text-gray-500"
             >
               <p>
-                I{' '}
+                I{" "}
                 {errorFlag && (
                   <span className="text-danger font-bold font-lg">HIGHLY </span>
                 )}
-                recommend browsing this demo with developer tools open.{' '}
+                recommend browsing this demo with developer tools open.{" "}
                 <code className="bg-gray-200 rounded-sm text-black ml-[5px] mr-[5px]">
                   ctrl+shift+i
-                </code>{' '}
-                usually.{' '}
+                </code>{" "}
+                usually.{" "}
               </p>
               <p className=" text-gray-500">
                 Also be careful with spamming buttons you might be sending
@@ -250,16 +287,16 @@ export function HomePage() {
                     placeholder="blockchain name"
                     className={`rounded-lg ${
                       errorFlag
-                        ? ' focus:border-2 border-danger'
-                        : 'border-near-blue'
+                        ? " focus:border-2 border-danger"
+                        : "border-near-blue"
                     } rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-2)`}
                     onChange={(e) => {
-                      setErrorFlag(false)
-                      setBchainInput(e.target.value)
+                      setErrorFlag(false);
+                      setBchainInput(e.target.value);
                     }}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        addBlockchainExp()
+                      if (e.key === "Enter") {
+                        addBlockchainExp();
                       }
                     }}
                   />
@@ -283,16 +320,16 @@ export function HomePage() {
                     placeholder="website url"
                     className={`rounded-lg ${
                       errorFlag
-                        ? ' focus:border-2 border-danger'
-                        : 'border-near-blue'
+                        ? " focus:border-2 border-danger"
+                        : "border-near-blue"
                     } rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-2)`}
                     onChange={(e) => {
-                      setErrorFlag(false)
-                      setWebsiteInput(e.target.value)
+                      setErrorFlag(false);
+                      setWebsiteInput(e.target.value);
                     }}
                     onKeyPress={(e) => {
-                      if (e.key === 'Enter') {
-                        addWebsite()
+                      if (e.key === "Enter") {
+                        addWebsite();
                       }
                     }}
                   />
@@ -313,7 +350,7 @@ export function HomePage() {
                 <p className="text-gray-500">
                   The idea is that other accounts should be able to judge wether
                   or not you posses the skills you claim. but for the purposes
-                  of this demo you can vouch and refute your own claims{' '}
+                  of this demo you can vouch and refute your own claims{" "}
                 </p>
 
                 <section
@@ -352,7 +389,7 @@ export function HomePage() {
                             className=" text-gray-500
                           self-center mt-5"
                           >
-                            Net Vouches:{' '}
+                            Net Vouches:{" "}
                             <span
                               className="pl-1 pr-2 
                             font-mono font-bold text-xl text-black"
@@ -376,7 +413,7 @@ export function HomePage() {
                           </button>
                         </div>
                       </li>
-                    )
+                    );
                   })}
                 </section>
               </section>
@@ -385,6 +422,6 @@ export function HomePage() {
         )}
       </main>
     </>
-  )
+  );
 }
-export default HomePage
+export default HomePage;
