@@ -42,6 +42,7 @@ const TransactionProvider = ({ children }) => {
       return;
     }
     try {
+      console.log(wallet);
       const result = await wallet
         .account()
         .viewFunction(
