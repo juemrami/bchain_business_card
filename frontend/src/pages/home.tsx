@@ -66,6 +66,8 @@ export default function Home() {
     console.log(errorList);
   }, [errorList]);
 
+
+
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUserId}`);
     await callFunction("get_card", { account_id: currentUserId });
@@ -83,6 +85,8 @@ export default function Home() {
   useEffect(() => {
     newfunc();
   }, []);
+
+  
   return (
     <>
       <div>
