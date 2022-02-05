@@ -51,32 +51,37 @@ export const UserBusinessCard = (props: ComponentProps) => {
           className=" h-full row-span-2
           flex-row flex self-end flex-wrap "
         >
-          {Object.keys(card.blockchain_exp).map((key, index) => {
-            return (
-              <div key={key} id="experience-container" className="h-max w-min ">
-                {card.blockchain_exp[key] ? (
-                  <>
-                    <span
-                      id="blockchain-name"
-                      className="font-normal bold text-sm"
-                    >
-                      <span>{key.toString()}:</span>
-                    </span>
-                    <span
-                      className="pl-1 pr-2 
+          {card.blockchain_exp &&
+            Object.keys(card.blockchain_exp).map((key, index) => {
+              return (
+                <div
+                  key={key}
+                  id="experience-container"
+                  className="h-max w-min "
+                >
+                  {card.blockchain_exp[key] ? (
+                    <>
+                      <span
+                        id="blockchain-name"
+                        className="font-normal bold text-sm"
+                      >
+                        <span>{key.toString()}:</span>
+                      </span>
+                      <span
+                        className="pl-1 pr-2 
                               font-mono  font-semibold text-gray-900"
-                    >
-                      {card.blockchain_exp[key]}
-                    </span>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </div>
-            )
-          })}
+                      >
+                        {card.blockchain_exp[key]}
+                      </span>
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </div>
+              );
+            })}
         </section>
       </div>
     </>
-  )
+  );
 };

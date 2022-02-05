@@ -1,23 +1,18 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
 type ErrorProps = {
   error: Error;
   errorClear: any;
 };
 const ErrorBox = (props: ErrorProps) => {
+  console.log("in error box");
   let { error, errorClear } = props;
   const router = useRouter();
   let message = error?.message;
+  let [contractError, setcontractError] = useState(false);
   console.log(message);
-  //error message returned contains some leading info before it gives the json parseable error
-  //need to clean-up the returned error with some regex to extract the JSON info and use it
-  //to display error to user.
 
-  //return if not a smart contract related error
-  if (!message?.search("wasm execution failed") || !message) {
-    return <></>;
-  }
   const parseError = (str) => {
     let pattern = /panicked at .*.'/;
     let exracted = pattern.exec(str);
@@ -25,7 +20,14 @@ const ErrorBox = (props: ErrorProps) => {
     res = res.replace(`"`, "");
     return res;
   };
-  message = parseError(message);
+
+  if (message?.search("wasm execution failed") <= 0 || !message) {
+    console.log("Non Smart Contract error passed to ErrorBox");
+  } else {
+    setcontractError(true);
+    message = parseError(message);
+  }
+
   return (
     <div
       id="error-box"
@@ -34,13 +36,17 @@ const ErrorBox = (props: ErrorProps) => {
       <span
         className="text-sm self-end pt-[2px] hover:(underline cursor-pointer)"
         onClick={() => {
-          errorClear();
+          errorClear(error);
         }}
       >
         <Link href="/">close</Link>
       </span>
       <h1 className="text-xl font-mono font-semibold self-center">
-        Error with the Smart Contract:
+        {contractError ? (
+          <>Smart Contract exectuion Error:</>
+        ) : (
+          <>Smart Contract related Error:</>
+        )}
       </h1>
       <div className="font-sans text-lg text-dark-200">
         Info
