@@ -1,32 +1,48 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { Interface } from "readline";
 type ErrorProps = {
-  error: Error;
-  errorClear: any;
+  errorList: Error[];
 };
+const parseContractErrorString = (str) => {
+  let pattern = /panicked at .*.'/;
+  let exracted = pattern.exec(str);
+  let res = exracted[0];
+  res = res.replace(`"`, "");
+  return res;
+};
+
 const ErrorBox = (props: ErrorProps) => {
   console.log("in error box");
-  let { error, errorClear } = props;
-  const router = useRouter();
-  let message = error?.message;
-  let [contractError, setcontractError] = useState(false);
-  console.log(message);
-
-  const parseError = (str) => {
-    let pattern = /panicked at .*.'/;
-    let exracted = pattern.exec(str);
-    let res = exracted[0];
-    res = res.replace(`"`, "");
-    return res;
+  let { errorList: passedErrors } = props;
+  type parsedError = {
+    errorMessage: String;
+    isContractError: Boolean;
   };
+  const [errorList, setErrorList] = useState<parsedError[]>(undefined);
 
-  if (message?.search("wasm execution failed") <= 0 || !message) {
-    console.log("Non Smart Contract error passed to ErrorBox");
-  } else {
-    setcontractError(true);
-    message = parseError(message);
-  }
+  const router = useRouter();
+
+  passedErrors.map((error) => {
+    let message = error.message;
+    let contractError = false;
+    console.log(message);
+    if (message?.search("wasm execution failed") <= 0 || !message) {
+      console.log("Non Smart Contract error passed to ErrorBox");
+    } else {
+      contractError = true;
+      message = parseContractErrorString(message);
+    }
+    let parsedError: parsedError = {
+      errorMessage: message,
+      isContractError: contractError,
+    };
+
+    setErrorList((prev) => [...prev, parsedError]);
+  });
+
+  console.log(errorList);
 
   return (
     <div
