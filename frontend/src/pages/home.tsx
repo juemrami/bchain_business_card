@@ -28,7 +28,7 @@ export default function Home() {
   const { viewFunction, callFunction } = useContractMethod();
   const { loading, data, error } = useTxnState();
 
-  const [errorList, setErrorList] = useState([]);
+  const [errorList, setErrorList] = useState<Error[]>(undefined);
 
   //wallet watch useEffect
   useEffect(() => {
@@ -56,15 +56,14 @@ export default function Home() {
 
   //error management useEffect()
   useEffect(() => {
-    console.log(error);
-    if (!errorList.includes(error) && error) {
-      console.log("pushing error");
-      setErrorList([...errorList, error]);
+    // console.log(error);
+    // console.log(errorList);
+    if (!errorList?.includes(error) && error) {
+      console.log(`pushing error: ${error.message}`);
+      console.log(error);
+      setErrorList((prev) => [...(prev || []), error]);
     }
   }, [error]);
-  useEffect(() => {
-    console.log(errorList);
-  }, [errorList]);
 
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUserId}`);
@@ -72,42 +71,26 @@ export default function Home() {
     if (data) {
       setCard(data);
     }
-    if (error) {
-      console.log(error);
-    }
   };
 
   const newfunc = async () => {
     await viewFunction("get_card", { account_id: "null" });
   };
+
   useEffect(() => {
-    newfunc();
-  }, []);
+    (async () => {
+      if (wallet) {
+        await newfunc();
+      }
+    })();
+  }, [wallet]);
   return (
     <>
-      <div>
-        {errorList.map((error) => (
-          <ErrorBox
-            key={error.message}
-            error={error}
-            errorClear={(elementError) => {
-              setErrorList((prev) => prev.filter((x) => x != elementError));
-            }}
-          />
-        ))}
-      </div>
-
-      {/* <div>{errorList[0]}</div> */}
-
-      {/* {error && (
-        <ErrorBox
-          key={error.message}
-          error={error}
-          errorClear={(elementError) => {
-            errorList.filter((x) => x != elementError);
-          }}
-        />
-      )} */}
+      {error && errorList && (
+        <div>
+          <ErrorBox errorList={errorList} />
+        </div>
+      )}
 
       <h1 className="text-5xl">{`Hello ${currentUserId || ""}`} </h1>
       {loading && (
