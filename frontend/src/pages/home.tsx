@@ -74,7 +74,7 @@ export default function Home() {
   };
 
   const newfunc = async () => {
-    await viewFunction("get_card", { account_id: "null" });
+    await viewFunction("get_card", { account_id: currentUserId });
   };
 
   useEffect(() => {

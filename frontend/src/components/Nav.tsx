@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import nearLogo from "../public/near-logo.svg";
+import errorLogo from "../public/error-notification.svg";
 import { useNear } from "../context/NearProvider";
 import Image from "next/image";
 
@@ -22,7 +23,7 @@ export const Nav = () => {
   }
   return (
     <nav
-      id="3-Element-Navbar"
+      id="navbar"
       className="grid grid-cols-3 
         items-center gap-1 
         w-full max-h-[55px] h-full 
@@ -65,17 +66,18 @@ export const Nav = () => {
 
       <section
         id="Right"
-        className="max-h-[50px] h-full pr-[40px] 
+        className="max-h-[50px] h-full pr-[30px] 
           flex items-center justify-end  text-xl 
-          "
+          border-2 border-black"
       >
+        
         {wallet?.getAccountId() ? (
           <button
             className="flex items-center justify-center 
             font-thin text-white
             bg-black
-            border-solid rounded-w-lg border-black border-2
-            h-[34px] w-[110px] pb-[2px]
+            border-solid rounded-lg border-black border-[2px]
+            h-[30px] w-[90px] pb-[2px]
             hover:(border-danger  text-danger font-semibold bg-light-600)"
             onClick={signOut}
           >
@@ -86,8 +88,8 @@ export const Nav = () => {
             className="flex items-center justify-center 
             font-thin text-white
             bg-black
-            border-solid rounded-lg border-black border-[2.5px]
-            h-[34px] w-[110px] pb-[2px]
+            border-solid rounded-lg border-black border-[2px]
+            h-[30px] w-[90px] pb-[2px]
             hover:(border-near-blue text-near-blue font-semibold bg-light-600)"
             onClick={signIn}
           >

@@ -55,10 +55,17 @@ const ErrorBox = (props: ErrorProps) => {
   //this should force a state update from the useEffect
   //above
   const clearError = (index: number) => {
+    console.log("Removing Error");
+    // console.log(errorList);
+    // console.log(errorList.splice(index, 1));
     setErrorList((prev) => prev.splice(index, 1));
   };
 
-  // console.log(errorList);
+  console.log(errorList);
+  if (errorList?.length == 0) {
+    console.log("nothing to render");
+    return <></>;
+  }
 
   return (
     <>
