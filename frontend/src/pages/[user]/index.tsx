@@ -8,6 +8,7 @@ import { UserBusinessCard } from "../../components/UserBusinessCard";
 import { Big } from "big.js";
 import ErrorBox from "../../components/ErrorBox";
 import { useErrors } from "../../context/TransactionProvider";
+import { useNavContext } from "../../components/Nav";
 import {
   useTxnState,
   useContractMethod,
@@ -36,6 +37,7 @@ const viewUserPage = (props) => {
   let { loading, data, error } = useTxnState();
   let { viewFunction, callFunction } = useContractMethod();
   let { errorList } = useErrors();
+  let { setShowSearchBox } = useNavContext();
 
   const [card, setCard] = useState(null);
   // useEffect(() => {
@@ -50,7 +52,12 @@ const viewUserPage = (props) => {
   const getCard = async () => {
     console.log(`Attempting to get card for ${owner_id}`);
     let res = await viewFunction("get_card", { account_id: String(owner_id) });
-    if (res) setCard(res);
+    if (res) {
+      setShowSearchBox(false);
+      setCard(res);
+    } else {
+      setCard(null);
+    }
   };
   const vouch = async (blockchain) => {
     console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`);
