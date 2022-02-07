@@ -56,11 +56,8 @@ const TransactionProvider = ({ children }) => {
 
   //error management useEffect()
   useEffect(() => {
-    // console.log(error);
-    // console.log(errorList);
     if (!errorList?.includes(error) && error) {
       console.log(`pushing error: ${error.message}`);
-      // console.log(error);
       setErrorList((prev) => [...(prev || []), error]);
     }
   }, [error]);
@@ -72,8 +69,6 @@ const TransactionProvider = ({ children }) => {
 
   async function viewFunction(functionName, args = {}) {
     console.log(`View function called: ${functionName}`);
-    // setError(undefined);
-
     setLoading(true);
     if (!viewMethods.includes(functionName)) {
       setError(Error(`Function not found: "${functionName}".`));

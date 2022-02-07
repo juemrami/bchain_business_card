@@ -85,43 +85,11 @@ export function NearProvider({ children }) {
     })();
   }, []);
 
-  const viewFunction = async (functionName, args = {}) => {
-    // console.log(viewMethods);
-    // console.log(functionName);
-
-    if (!viewMethods.includes(functionName)) {
-      // console.log("function not found");
-      return Error("function not found");
-    }
-
-    const result = await wallet
-      .account()
-      .viewFunction(process.env.NEXT_PUBLIC_CONTRACT_NAME, functionName, args);
-
-    return result;
-  };
-
-  const callFunction = async (functionName, args = {}, deposit = "0") => {
-    if (!changeMethods.includes(functionName)) {
-      // console.log("function not found");
-      throw new Error(`Function not found: "${functionName}".`);
-    }
-
-    const result = await wallet.account().functionCall({
-      contractId: process.env.NEXT_PUBLIC_CONTRACT_NAME,
-      methodName: functionName,
-      args: args,
-      attachedDeposit: utils.format.parseNearAmount(deposit),
-    });
-    return result;
-  };
   const context = {
     near,
     wallet,
     contract,
     currentUserId,
-    viewFunction,
-    callFunction,
   };
 
   return (
