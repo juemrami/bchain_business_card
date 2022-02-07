@@ -7,6 +7,7 @@ import { useErrors } from "../context/TransactionProvider";
 type parsedError = {
   errorMessage: String;
   isContractError: Boolean;
+
   error: Error;
 };
 

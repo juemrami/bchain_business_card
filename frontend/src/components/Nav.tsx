@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { createContext } from "react";
 
+
 interface NavContext {
   setShowSearchBox?: any;
 }
@@ -25,6 +26,7 @@ export const Nav = ({ children }) => {
   let [showSearchBox, setShowSearchBox] = useState(false);
   let [searchValue, setSearchValue] = useState("");
   const router = useRouter();
+
   useEffect(() => {}, [wallet]);
 
   function signIn() {

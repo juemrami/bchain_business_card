@@ -15,6 +15,7 @@ import {
   useErrors,
   useTxnState,
 } from "../context/TransactionProvider";
+
 import { BallTriangle } from "react-loading-icons";
 
 export interface NearProps {
@@ -32,6 +33,7 @@ export default function Home() {
   const { viewFunction, callFunction } = useContractMethod();
   const { loading, data, error } = useTxnState();
   const { errorList } = useErrors();
+
 
   //wallet watch useEffect
   useEffect(() => {
@@ -62,6 +64,7 @@ export default function Home() {
     await callFunction("get_card", { account_id: "null" });
     if (data) {
       setCard(data);
+
     }
   };
 
@@ -82,6 +85,7 @@ export default function Home() {
         <div>
           <ErrorBox errorList={errorList} />
         </div>
+
       )} */}
 
       <h1 className="text-5xl">{`Hello ${currentUserId || ""}`} </h1>

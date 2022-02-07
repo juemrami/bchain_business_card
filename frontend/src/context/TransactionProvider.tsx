@@ -1,5 +1,6 @@
 import { utils } from "near-api-js";
 import React, { createContext, useContext, useEffect, useState } from "react";
+
 import { viewMethods, changeMethods, useNear } from "./NearProvider";
 
 interface TransactionContext {
@@ -25,6 +26,7 @@ export const TransactionContext = createContext<TransactionContext>({});
 const MethodContext = createContext<MethodContext>({});
 const ErrorContext = createContext<ErrorContext>({});
 
+
 export function useContractMethod() {
   return useContext(MethodContext);
 }
@@ -34,6 +36,7 @@ export function useTxnState() {
 export function useErrors() {
   return useContext(ErrorContext);
 }
+
 const TransactionProvider = ({ children }) => {
   let { wallet } = useNear();
   let [error, setError] = useState(undefined);
@@ -70,6 +73,7 @@ const TransactionProvider = ({ children }) => {
   async function viewFunction(functionName, args = {}) {
     console.log(`View function called: ${functionName}`);
     // setError(undefined);
+
     setLoading(true);
     if (!viewMethods.includes(functionName)) {
       setError(Error(`Function not found: "${functionName}".`));
@@ -97,7 +101,6 @@ const TransactionProvider = ({ children }) => {
 
   async function callFunction(functionName, args = {}, deposit = "0") {
     console.log("call function called");
-    // setError(undefined);
     setLoading(true);
     if (!changeMethods.includes(functionName)) {
       console.log("hello");
@@ -119,11 +122,13 @@ const TransactionProvider = ({ children }) => {
       setData(undefined);
     }
     setLoading(false);
+
   }
 
   const txnContext = { loading, data, error };
   const methodContext = { viewFunction, callFunction };
   const errorsContext = { errorList, clearError };
+
 
   return (
     <TransactionContext.Provider value={txnContext}>
