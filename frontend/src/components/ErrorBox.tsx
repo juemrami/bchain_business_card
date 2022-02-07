@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { Interface } from "readline";
+import { useErrors } from "../context/TransactionProvider";
 type ErrorProps = {
   errorList: Error[];
 };
@@ -23,7 +24,8 @@ const ErrorBox = (props: ErrorProps) => {
   console.log("in error box");
   let { errorList: errorProps } = props;
   const [errorList, setErrorList] = useState<parsedError[]>();
-
+  const { clearError } = useErrors();
+  // if (!errorProps) return <></>;
   useEffect(() => {
     //Take passed Errors from props
     //extract important bits for displaying
@@ -54,12 +56,6 @@ const ErrorBox = (props: ErrorProps) => {
   //remove selected error from the list of errors
   //this should force a state update from the useEffect
   //above
-  const clearError = (index: number) => {
-    console.log("Removing Error");
-    // console.log(errorList);
-    // console.log(errorList.splice(index, 1));
-    setErrorList((prev) => prev.splice(index, 1));
-  };
 
   console.log(errorList);
   if (errorList?.length == 0) {

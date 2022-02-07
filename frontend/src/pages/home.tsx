@@ -10,7 +10,11 @@ import { connect, Contract, keyStores, WalletConnection } from "near-api-js";
 import { NearContext } from "../context/NearProvider";
 import ErrorBox from "../components/ErrorBox";
 import { UserBusinessCard } from "../components/UserBusinessCard";
-import { useContractMethod, useTxnState } from "../context/TransactionProvider";
+import {
+  useContractMethod,
+  useErrors,
+  useTxnState,
+} from "../context/TransactionProvider";
 import { BallTriangle } from "react-loading-icons";
 
 export interface NearProps {
@@ -27,8 +31,7 @@ export default function Home() {
   const { wallet, currentUserId, contract } = useNear();
   const { viewFunction, callFunction } = useContractMethod();
   const { loading, data, error } = useTxnState();
-
-  const [errorList, setErrorList] = useState<Error[]>(undefined);
+  const { errorList } = useErrors();
 
   //wallet watch useEffect
   useEffect(() => {
@@ -54,27 +57,16 @@ export default function Home() {
     }
   }, [wallet?.getAccountId()]);
 
-  //error management useEffect()
-  useEffect(() => {
-    // console.log(error);
-    // console.log(errorList);
-    if (!errorList?.includes(error) && error) {
-      console.log(`pushing error: ${error.message}`);
-      console.log(error);
-      setErrorList((prev) => [...(prev || []), error]);
-    }
-  }, [error]);
-
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUserId}`);
-    await callFunction("get_card", { account_id: currentUserId });
+    await callFunction("get_card", { account_id: "null" });
     if (data) {
       setCard(data);
     }
   };
 
   const newfunc = async () => {
-    await viewFunction("get_card", { account_id: currentUserId });
+    await viewFunction("get_card", { account_id: "currentUserId" });
   };
 
   useEffect(() => {
@@ -86,11 +78,11 @@ export default function Home() {
   }, [wallet]);
   return (
     <>
-      {error && errorList && (
+      {/* {error && errorList && (
         <div>
           <ErrorBox errorList={errorList} />
         </div>
-      )}
+      )} */}
 
       <h1 className="text-5xl">{`Hello ${currentUserId || ""}`} </h1>
       {loading && (

@@ -7,6 +7,11 @@ import { Contract } from "near-api-js";
 import { UserBusinessCard } from "../../components/UserBusinessCard";
 import { Big } from "big.js";
 import ErrorBox from "../../components/ErrorBox";
+import { useErrors } from "../../context/TransactionProvider";
+import {
+  useTxnState,
+  useContractMethod,
+} from "../../context/TransactionProvider";
 
 const BOATLOAD_OF_GAS = Big(3)
   .times(10 ** 13)
@@ -26,79 +31,46 @@ const styles = {
   hover:(border-black text-black bg-light-600)`,
 };
 const viewUserPage = (props) => {
-  console.log(props);
   let { owner_id } = props;
-  let { contract: _contract } = useNear();
+  let { wallet } = useNear();
+  let { loading, data, error } = useTxnState();
+  let { viewFunction, callFunction } = useContractMethod();
+  let { errorList } = useErrors();
 
   const [card, setCard] = useState(null);
-  let [loadingState, setLoadingState] = useState(false);
-  let [errorFlag, setErrorFlag] = useState(false);
-  let [err, setErr] = useState(null);
-  //contract is undefined initially
-  //need to wait till its defined to call getCard
-  //how long to wait?
-  let contract: any = null; //workaround to to type errors. not a permanent fix
   useEffect(() => {
-    contract = _contract;
-    if (contract) {
+    data ? setCard(data) : setCard(null);
+  }, [data]);
+  useEffect(() => {
+    if (wallet) {
       getCard();
     }
-  }, [_contract]);
+  }, [owner_id, wallet]);
 
   const getCard = async () => {
     console.log(`Attempting to get card for ${owner_id}`);
-    try {
-      const res = await contract.get_card({ account_id: owner_id });
-      if (res) {
-        setCard(res);
-      }
-    } catch (error) {
-      setErrorFlag(true);
-      setErr(error);
-      console.log(error);
-    }
+    await viewFunction("get_card", { account_id: String(owner_id) });
   };
   const vouch = async (blockchain) => {
     console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`);
-    setLoadingState(true);
-    await contract
-      .vouch(
-        { card_owner_id: card.owner_id, blockchain_name: blockchain },
-        BOATLOAD_OF_GAS
-      )
-      .then(() => setLoadingState(false));
+
     await getCard();
   };
   const refute = async (blockchain) => {
     console.log(
       `Attempting to refute ${card.owner_id} on ${blockchain} experience.`
     );
-    setLoadingState(true);
-    await contract
-      .refute(
-        { card_owner_id: card.owner_id, blockchain_name: blockchain },
-        BOATLOAD_OF_GAS
-      )
-      .then(() => setLoadingState(false));
     await getCard();
   };
 
-  if (loadingState || card === null) {
+  if (card === null) {
     return (
       <div className="flex justify-center h-[48px] mt-10 flex-col items-center">
         <BallTriangle
-          fill={errorFlag ? "danger" : "near-blue"}
+          fill={error ? "danger" : "near-blue"}
           speed={1.2}
           className=""
         />
-        {errorFlag && (
-          <ErrorBox
-            error={err}
-            errorClear={() => {
-              setErrorFlag(false);
-            }}
-          ></ErrorBox>
-        )}
       </div>
     );
   }
@@ -177,7 +149,6 @@ const viewUserPage = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const owner_id = await ctx.query.user;
-  console.log(owner_id);
   return {
     props: {
       owner_id: owner_id,

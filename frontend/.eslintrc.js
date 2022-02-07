@@ -9,13 +9,17 @@ module.exports = {
   extends: [
     "standard",
     "next/core-web-vitals",
-    "plugin:typescript-eslint/recommended",
+    "prettier",
     "plugin:prettier/recommended",
+    "plugin:typescript-eslint/recommended",
     "plugin:node/recommended",
-    "prettier"
+    "plugin:react/reccomened",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
+    ecmaFeature: {
+      jsx: true,
+    },
     ecmaVersion: 12,
   },
   rules: {

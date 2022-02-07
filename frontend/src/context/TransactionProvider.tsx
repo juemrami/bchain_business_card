@@ -1,5 +1,5 @@
 import { utils } from "near-api-js";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { viewMethods, changeMethods, useNear } from "./NearProvider";
 
 interface TransactionContext {
@@ -16,8 +16,14 @@ interface MethodContext {
   ) => Promise<any>;
 }
 
+interface ErrorContext {
+  errorList?: Error[];
+  clearError?: (args: any) => void;
+}
+
 export const TransactionContext = createContext<TransactionContext>({});
 const MethodContext = createContext<MethodContext>({});
+const ErrorContext = createContext<ErrorContext>({});
 
 export function useContractMethod() {
   return useContext(MethodContext);
@@ -25,15 +31,40 @@ export function useContractMethod() {
 export function useTxnState() {
   return useContext(TransactionContext);
 }
+export function useErrors() {
+  return useContext(ErrorContext);
+}
 const TransactionProvider = ({ children }) => {
   let { wallet } = useNear();
   let [error, setError] = useState(undefined);
   let [loading, setLoading] = useState(false);
   let [data, setData] = useState(undefined);
+  let [errorList, setErrorList] = useState<Error[]>(undefined);
+
+  let clearError = (index: number) => {
+    setErrorList((prev) =>
+      prev.filter((e, element_index, a) => element_index != index)
+    );
+  };
+
+  //error management useEffect()
+  useEffect(() => {
+    // console.log(error);
+    // console.log(errorList);
+    if (!errorList?.includes(error) && error) {
+      console.log(`pushing error: ${error.message}`);
+      // console.log(error);
+      setErrorList((prev) => [...(prev || []), error]);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    setError(undefined);
+  }, [errorList?.length == 0]);
 
   async function viewFunction(functionName, args = {}) {
-    console.log("view function called");
-    setError(undefined);
+    console.log(`View function called: ${functionName}`);
+    // setError(undefined);
     setLoading(true);
     if (!viewMethods.includes(functionName)) {
       setError(Error(`Function not found: "${functionName}".`));
@@ -49,18 +80,17 @@ const TransactionProvider = ({ children }) => {
           functionName,
           args
         );
-      setLoading(false);
       setData(result);
     } catch (error) {
       setError(error);
-      setLoading(false);
       setData(undefined);
     }
+    setLoading(false);
   }
 
   async function callFunction(functionName, args = {}, deposit = "0") {
     console.log("call function called");
-    setError(undefined);
+    // setError(undefined);
     setLoading(true);
     if (!changeMethods.includes(functionName)) {
       console.log("hello");
@@ -76,22 +106,24 @@ const TransactionProvider = ({ children }) => {
         args: args,
         attachedDeposit: utils.format.parseNearAmount(deposit),
       });
-      setLoading(false);
       setData(result);
     } catch (error) {
       setError(error);
-      setLoading(false);
       setData(undefined);
     }
+    setLoading(false);
   }
 
   const txnContext = { loading, data, error };
   const methodContext = { viewFunction, callFunction };
+  const errorsContext = { errorList, clearError };
 
   return (
     <TransactionContext.Provider value={txnContext}>
       <MethodContext.Provider value={methodContext}>
-        {children}
+        <ErrorContext.Provider value={errorsContext}>
+          {children}
+        </ErrorContext.Provider>
       </MethodContext.Provider>
     </TransactionContext.Provider>
   );
