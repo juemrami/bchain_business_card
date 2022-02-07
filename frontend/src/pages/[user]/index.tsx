@@ -38,6 +38,7 @@ const viewUserPage = (props) => {
   let { viewFunction, callFunction } = useContractMethod();
   let { errorList } = useErrors();
   let { setShowSearchBox } = useNavContext();
+  const [userNotFound, setUserNotFound] = useState(false);
 
   const [card, setCard] = useState(null);
   // useEffect(() => {
@@ -57,6 +58,7 @@ const viewUserPage = (props) => {
       setCard(res);
     } else {
       setCard(null);
+      setUserNotFound(true);
     }
   };
   const vouch = async (blockchain) => {
@@ -80,13 +82,23 @@ const viewUserPage = (props) => {
 
   if (card === null) {
     return (
-      <div className="flex justify-center h-[48px] mt-10 flex-col items-center">
-        <BallTriangle
-          fill={error ? "danger" : "near-blue"}
-          speed={1.2}
-          className=""
-        />
-      </div>
+      <>
+        <div className="flex justify-center h-[48px] mt-10 flex-col items-center">
+          <BallTriangle
+            speed={!loading ? 0 : 1.2}
+            fill={error ? "danger" : "near-blue"}
+            className=""
+          />
+        </div>
+        {userNotFound && !loading && (
+          <h1
+            className="flex justify-center text-[30px] font-mono
+           w-full mt-[15px]"
+          >
+            No User Found
+          </h1>
+        )}
+      </>
     );
   }
 

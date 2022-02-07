@@ -178,11 +178,13 @@ export const Nav = ({ children }) => {
                 >
                   <input
                     placeholder="search for an account"
-                    className={`rounded-lg w-min border-2 border-gray-400 ${
-                      errorList
-                        ? " focus:border-2 border-danger"
-                        : "border-near-blue"
-                    } rounded-r-[0px] h-[35px] pl-[10px]  outline-none focus:(border-near-blue)`}
+                    className={`rounded-lg w-min border-2 border-gray-400 
+                      focus:(border-near-blue)
+                      ${
+                        errorList?.length > 0
+                          ? " focus:border-danger"
+                          : "border-near-blue"
+                      } rounded-r-[0px] h-[35px] pl-[10px]  outline-none `}
                     onChange={(e) => {
                       setSearchValue(e.target.value);
                     }}
