@@ -38,9 +38,9 @@ const viewUserPage = (props) => {
   let { errorList } = useErrors();
 
   const [card, setCard] = useState(null);
-  useEffect(() => {
-    data ? setCard(data) : setCard(null);
-  }, [data]);
+  // useEffect(() => {
+  //   data ? setCard(data) : setCard(null);
+  // }, [data]);
   useEffect(() => {
     if (wallet) {
       getCard();
@@ -49,17 +49,25 @@ const viewUserPage = (props) => {
 
   const getCard = async () => {
     console.log(`Attempting to get card for ${owner_id}`);
-    await viewFunction("get_card", { account_id: String(owner_id) });
+    let res = await viewFunction("get_card", { account_id: String(owner_id) });
+    if (res) setCard(res);
   };
   const vouch = async (blockchain) => {
     console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`);
-
+    await callFunction("vouch", {
+      card_owner_id: card.owner_id,
+      blockchain_name: blockchain,
+    });
     await getCard();
   };
   const refute = async (blockchain) => {
     console.log(
       `Attempting to refute ${card.owner_id} on ${blockchain} experience.`
     );
+    await callFunction("refute", {
+      card_owner_id: card.owner_id,
+      blockchain_name: blockchain,
+    });
     await getCard();
   };
 

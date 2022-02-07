@@ -38,17 +38,18 @@ export function HomePage() {
     if (wallet) {
       console.log(`found`);
       console.log(wallet);
-      currentUser || null
-        ? console.log(`logged in user key found: ${currentUser}`)
-        : console.log(
-            `wallet found but no keys for current wallet_connection exist.
+      if (currentUser || null) {
+        console.log(`logged in user key found: ${currentUser}`);
+        getCard();
+      } else {
+        console.log(
+          `wallet found but no keys for current wallet_connection exist.
              User must log in and save a key.`
-          );
-      getCard();
+        );
+      }
     } else {
       console.log(`wallet not found...yet`);
     }
-    // console.log(currentUser);
   }, [wallet]);
   const [loadingState, setLoadingState] = useState(false);
   const [errorFlag, setErrorFlag] = useState(false);

@@ -18,7 +18,7 @@ interface MethodContext {
 
 interface ErrorContext {
   errorList?: Error[];
-  clearError?: (args: any) => void;
+  clearError?: (arg1: number, arg2?: boolean) => void;
 }
 
 export const TransactionContext = createContext<TransactionContext>({});
@@ -41,10 +41,14 @@ const TransactionProvider = ({ children }) => {
   let [data, setData] = useState(undefined);
   let [errorList, setErrorList] = useState<Error[]>(undefined);
 
-  let clearError = (index: number) => {
-    setErrorList((prev) =>
-      prev.filter((e, element_index, a) => element_index != index)
-    );
+  let clearError = (index?: number, clearAll = false) => {
+    if (clearAll) {
+      setErrorList([]);
+    } else {
+      setErrorList((prev) =>
+        prev.filter((e, element_index, a) => element_index != index)
+      );
+    }
   };
 
   //error management useEffect()
@@ -60,6 +64,7 @@ const TransactionProvider = ({ children }) => {
 
   useEffect(() => {
     setError(undefined);
+    setErrorList(undefined);
   }, [errorList?.length == 0]);
 
   async function viewFunction(functionName, args = {}) {
@@ -81,6 +86,8 @@ const TransactionProvider = ({ children }) => {
           args
         );
       setData(result);
+      setLoading(false);
+      return result;
     } catch (error) {
       setError(error);
       setData(undefined);
