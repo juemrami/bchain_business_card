@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>Business Card</title>
         <meta name="description" content="expose yourself" charSet="UTF-8" />
-        <link rel="icon" href="../../public/favicon.ico" />
+        <link rel="icon" href="../public/favicon.ico" />
       </Head>
       <NearProvider>
         <TransactionProvider>
