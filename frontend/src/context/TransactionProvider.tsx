@@ -2,6 +2,7 @@ import { utils } from "near-api-js";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { viewMethods, changeMethods, useNear } from "./NearProvider";
+import { Big } from "big.js";
 
 interface TransactionContext {
   loading?: boolean;
@@ -13,7 +14,7 @@ interface MethodContext {
   callFunction?: (
     functionName: any,
     args: {},
-    deposit?: string
+    deposit?: number
   ) => Promise<any>;
 }
 
@@ -22,10 +23,9 @@ interface ErrorContext {
   clearError?: (arg1: number, arg2?: boolean) => void;
 }
 
-export const TransactionContext = createContext<TransactionContext>({});
+const TransactionContext = createContext<TransactionContext>({});
 const MethodContext = createContext<MethodContext>({});
 const ErrorContext = createContext<ErrorContext>({});
-
 
 export function useContractMethod() {
   return useContext(MethodContext);
@@ -36,6 +36,12 @@ export function useTxnState() {
 export function useErrors() {
   return useContext(ErrorContext);
 }
+
+export const toNear = (n: number) => {
+  return Big(n)
+    .times(10 ** 24)
+    .toFixed();
+};
 
 const TransactionProvider = ({ children }) => {
   let { wallet } = useNear();
@@ -94,8 +100,9 @@ const TransactionProvider = ({ children }) => {
     setLoading(false);
   }
 
-  async function callFunction(functionName, args = {}, deposit = "0") {
+  async function callFunction(functionName, args = {}, deposit: number = 0) {
     console.log("call function called");
+    if (functionName === "create_new_card") deposit = toNear(5);
     setLoading(true);
     if (!changeMethods.includes(functionName)) {
       console.log("hello");
@@ -109,7 +116,7 @@ const TransactionProvider = ({ children }) => {
         contractId: process.env.NEXT_PUBLIC_CONTRACT_NAME,
         methodName: functionName,
         args: args,
-        attachedDeposit: utils.format.parseNearAmount(deposit),
+        attachedDeposit: utils.format.parseNearAmount(toNear(deposit)),
       });
       setData(result);
     } catch (error) {
@@ -117,13 +124,11 @@ const TransactionProvider = ({ children }) => {
       setData(undefined);
     }
     setLoading(false);
-
   }
 
   const txnContext = { loading, data, error };
   const methodContext = { viewFunction, callFunction };
   const errorsContext = { errorList, clearError };
-
 
   return (
     <TransactionContext.Provider value={txnContext}>

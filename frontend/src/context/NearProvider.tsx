@@ -42,15 +42,6 @@ export function NearProvider({ children }) {
   const [contract, setContract] = useState<Contract>(undefined);
   const [currentUserId, setCurrentUserId] = useState(undefined);
 
-  const viewMethods = ["get_card"];
-  const changeMethods = [
-    "set_website",
-    "add_blockchain",
-    "vouch",
-    "refute",
-    "create_new_card",
-  ];
-
   useEffect(() => {
     (async function init() {
       const config = {
@@ -63,6 +54,7 @@ export function NearProvider({ children }) {
         headers: {},
       };
       const near_connection = await connect(config);
+      console.log(`fetching wallet...`)
       const wallet_connection = new WalletConnection(
         near_connection,
         process.env.NEXT_PUBLIC_CONTRACT_LOCALSTORAGE_PREFIX

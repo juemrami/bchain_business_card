@@ -5,7 +5,11 @@ import { useNear } from "../context/NearProvider";
 import { BallTriangle } from "react-loading-icons";
 import { UserBusinessCard } from "../components/UserBusinessCard";
 import ErrorBox from "../components/ErrorBox";
-import { useContractMethod, useTxnState } from "../context/TransactionProvider";
+import {
+  useContractMethod,
+  useErrors,
+  useTxnState,
+} from "../context/TransactionProvider";
 // const _contract = dynamic(
 //   () => {
 //     return import("../depracated__utils/near").then((mod) => mod.contract);
@@ -15,6 +19,7 @@ import { useContractMethod, useTxnState } from "../context/TransactionProvider";
 const BOATLOAD_OF_GAS = Big(3)
   .times(10 ** 13)
   .toFixed();
+
 const styles = {
   button: `flex items-center justify-center 
   font-thin text-white
@@ -30,11 +35,12 @@ const styles = {
   hover:(border-black text-black bg-light-600)`,
 };
 export function HomePage() {
-  const { wallet, currentUserId: currentUser, contract: _contract } = useNear();
-  let { viewFunction } = useContractMethod();
+  const { wallet, currentUserId: currentUser, contract } = useNear();
+  let { viewFunction, callFunction } = useContractMethod();
+  const { loading, data, error } = useTxnState();
+  const { errorList } = useErrors();
 
   useEffect(() => {
-    console.log(`fetching wallet...`);
     if (wallet) {
       console.log(`found`);
       console.log(wallet);
@@ -51,9 +57,6 @@ export function HomePage() {
       console.log(`wallet not found...yet`);
     }
   }, [wallet]);
-  const [loadingState, setLoadingState] = useState(false);
-  const [errorFlag, setErrorFlag] = useState(false);
-  const [err, setErr] = useState(null);
   const [bchainInput, setBchainInput] = useState("");
   const [websiteInput, setWebsiteInput] = useState("");
   const [card, setCard] = useState({
@@ -61,31 +64,12 @@ export function HomePage() {
     owner_id: null,
     website_url: null,
   });
-  let errors = [];
-  let [contract, setContract] = useState({
-    contractId: null,
-  });
-  useEffect(() => {
-    if (_contract) setContract(_contract);
-  }, [_contract]);
-  useEffect(() => {
-    console.log(err);
-  }, [err]);
   useEffect(() => {
     if (currentUser) {
-      console.log(`New Render triggered. Re-fetching business card.`);
+      console.log(`New account decteted. Fetching business card.`);
       getCard();
     }
   }, [currentUser]);
-  useEffect(() => {
-    if (errorFlag & (errors.length > 0)) {
-      console.log("smart contract errors found");
-      console.log(errors);
-      error = errors.shift();
-      console.log(error);
-      setErr(error);
-    }
-  }, [errorFlag]);
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUser}`);
     try {
@@ -96,8 +80,6 @@ export function HomePage() {
         setCard(res);
       }
     } catch (error) {
-      errors.push(error);
-      setErrorFlag(true);
       console.log(error);
     }
   };
@@ -105,94 +87,44 @@ export function HomePage() {
     console.log(
       `Creating new Card on  ${contract.contractId} for ${currentUser}`
     );
-    if (currentUser == null) {
-      await contract.create_new_card(
-        {},
-        BOATLOAD_OF_GAS,
-        Big(5)
-          .times(10 ** 24)
-          .toFixed()
-      );
-    } else {
-      await contract.create_new_card(
-        {},
-        BOATLOAD_OF_GAS,
-        Big(5)
-          .times(10 ** 24)
-          .toFixed()
-      );
-    }
+    await callFunction("create_new_card", {});
+    await getCard();
   };
   const addBlockchainExp = async () => {
     console.log(`Attempting to add ${bchainInput} for ${currentUser}`);
-    setLoadingState(true);
-    try {
-      await contract
-        .add_blockchain({ blockchain_name: bchainInput }, BOATLOAD_OF_GAS)
-        .then(() => setErrorFlag(false));
-      getCard();
-    } catch (error) {
-      errors.push(error);
-      setErrorFlag(true);
-      console.log(error);
-    }
-    setLoadingState(false);
   };
   const addWebsite = async () => {
     console.log(`Attempting to website ${websiteInput} for ${currentUser}`);
-    setLoadingState(true);
-    await contract
-      .set_website({ url: websiteInput }, BOATLOAD_OF_GAS)
-      .then(() => setLoadingState(false));
+    await callFunction("set_website", { url: websiteInput });
     await getCard();
   };
   const vouch = async (blockchain) => {
     console.log(`Attempting to vouch for  ${card.owner_id} on ${blockchain}`);
-    setLoadingState(true);
-    await contract
-      .vouch(
-        { card_owner_id: card.owner_id, blockchain_name: blockchain },
-        BOATLOAD_OF_GAS
-      )
-      .then(() => setLoadingState(false));
+    await callFunction("vouch", {
+      card_owner_id: card.owner_id,
+      blockchain_name: blockchain,
+    });
     await getCard();
   };
   const refute = async (blockchain) => {
     console.log(
       `Attempting to refute ${card.owner_id} on ${blockchain} experience.`
     );
-    setLoadingState(true);
-    await contract
-      .refute(
-        { card_owner_id: card.owner_id, blockchain_name: blockchain },
-        BOATLOAD_OF_GAS
-      )
-      .then(() => setLoadingState(false));
+    await callFunction("refute", {
+      card_owner_id: card.owner_id,
+      blockchain_name: blockchain,
+    });
     await getCard();
   };
 
-  if (loadingState || currentUser === undefined) {
+  if (loading || currentUser === undefined) {
     return (
       <div className="flex justify-center flex-1 h-[calc(100vh-50px)] flex-col items-center">
         <BallTriangle
-          fill={errorFlag ? "danger" : "near-blue"}
-          speed={!errorFlag ? 1.5 : 0}
+          fill={error ? "danger" : "near-blue"}
+          speed={!error ? 1.5 : 0}
           className=""
         />
-        {/* <>
-          {console.log(err)}
-          {err && (
-            <>
-              <>{console.log(err)}</>
-              <ErrorBox
-                error={err}
-                errorClear={() => {
-                  setErrorFlag(false);
-                }}
-              ></ErrorBox>
-            </>
-          )}
-        </> */}
       </div>
     );
   }
@@ -201,10 +133,10 @@ export function HomePage() {
     <>
       <main className="container mt-10 ml-10">
         <section id="banner" className="mb-8">
-          {loadingState ? (
+          {loading ? (
             <div className="flex justify-center h-[48px]">
               <BallTriangle
-                fill={errorFlag ? "danger" : "near-blue"}
+                fill={error ? "danger" : "near-blue"}
                 speed={1.2}
                 className=""
               />
@@ -213,7 +145,7 @@ export function HomePage() {
             <>
               <h1 id="welcome-header" className="text-5xl">
                 Welcome,{" "}
-                {(currentUser != "") & (currentUser != null) ? (
+                {currentUser != "" || currentUser != null ? (
                   <>{currentUser.split(".").shift()}.</>
                 ) : (
                   <p className=" font-$Times font-black text-xl mt-3 pl-[3px]">
@@ -263,7 +195,7 @@ export function HomePage() {
             >
               <p>
                 I{" "}
-                {errorFlag && (
+                {errorList?.length > 0 && (
                   <span className="text-danger font-bold font-lg">HIGHLY </span>
                 )}
                 recommend browsing this demo with developer tools open.{" "}
@@ -292,12 +224,11 @@ export function HomePage() {
                   <input
                     placeholder="blockchain name"
                     className={`rounded-lg ${
-                      errorFlag
+                      error
                         ? " focus:border-2 border-danger"
                         : "border-near-blue"
                     } rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-2)`}
                     onChange={(e) => {
-                      setErrorFlag(false);
                       setBchainInput(e.target.value);
                     }}
                     onKeyPress={(e) => {
@@ -325,12 +256,11 @@ export function HomePage() {
                   <input
                     placeholder="website url"
                     className={`rounded-lg ${
-                      errorFlag
+                      error
                         ? " focus:border-2 border-danger"
                         : "border-near-blue"
                     } rounded-r-[0px] h-[35px] pl-[10px] w-[150px] outline-none focus:(border-2)`}
                     onChange={(e) => {
-                      setErrorFlag(false);
                       setWebsiteInput(e.target.value);
                     }}
                     onKeyPress={(e) => {
