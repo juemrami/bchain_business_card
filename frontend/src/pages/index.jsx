@@ -5,6 +5,7 @@ import { useNear } from "../context/NearProvider";
 import { BallTriangle } from "react-loading-icons";
 import { UserBusinessCard } from "../components/UserBusinessCard";
 import ErrorBox from "../components/ErrorBox";
+import { useContractMethod, useTxnState } from "../context/TransactionProvider";
 // const _contract = dynamic(
 //   () => {
 //     return import("../depracated__utils/near").then((mod) => mod.contract);
@@ -29,30 +30,33 @@ const styles = {
   hover:(border-black text-black bg-light-600)`,
 };
 export function HomePage() {
-  let { wallet, currentUserId: currentUser, contract: _contract } = useNear();
+  const { wallet, currentUserId: currentUser, contract: _contract } = useNear();
+  let { viewFunction } = useContractMethod();
 
   useEffect(() => {
     console.log(`fetching wallet...`);
     if (wallet) {
       console.log(`found`);
       console.log(wallet);
-      currentUser || null
-        ? console.log(`logged in user key found: ${currentUser}`)
-        : console.log(
-            `wallet found but no keys for current wallet_connection exist.
+      if (currentUser || null) {
+        console.log(`logged in user key found: ${currentUser}`);
+        getCard();
+      } else {
+        console.log(
+          `wallet found but no keys for current wallet_connection exist.
              User must log in and save a key.`
-          );
+        );
+      }
     } else {
       console.log(`wallet not found...yet`);
     }
-    // console.log(currentUser);
   }, [wallet]);
-  let [loadingState, setLoadingState] = useState(false);
-  let [errorFlag, setErrorFlag] = useState(false);
-  let [err, setErr] = useState(null);
-  let [bchainInput, setBchainInput] = useState("");
-  let [websiteInput, setWebsiteInput] = useState("");
-  let [card, setCard] = useState({
+  const [loadingState, setLoadingState] = useState(false);
+  const [errorFlag, setErrorFlag] = useState(false);
+  const [err, setErr] = useState(null);
+  const [bchainInput, setBchainInput] = useState("");
+  const [websiteInput, setWebsiteInput] = useState("");
+  const [card, setCard] = useState({
     blockchain_exp: {},
     owner_id: null,
     website_url: null,
@@ -85,7 +89,9 @@ export function HomePage() {
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUser}`);
     try {
-      const res = await contract.get_card({ account_id: currentUser });
+      const res = await viewFunction("get_card", {
+        account_id: String(currentUser),
+      });
       if (res) {
         setCard(res);
       }

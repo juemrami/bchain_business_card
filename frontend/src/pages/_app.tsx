@@ -15,8 +15,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <NearProvider>
         <TransactionProvider>
-          <Nav />
-          <Component {...pageProps} />
+          <Nav>
+            <Component {...pageProps} />
+          </Nav>
         </TransactionProvider>
       </NearProvider>
     </>
