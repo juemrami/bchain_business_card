@@ -10,7 +10,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { createContext } from "react";
 
-
 interface NavContext {
   setShowSearchBox?: any;
 }
@@ -60,7 +59,10 @@ export const Nav = ({ children }) => {
             >
               <NearLogo className="min-w-max" height={50} width={50} />
               <Link href="/">
-                <h1 className="flex pt-1.5 text-3xl font-extrabold min-w-max font-mono hover:cursor-pointer">
+                <h1
+                  onClick={() => setShowSearchBox(false)}
+                  className="flex pt-1.5 text-3xl font-extrabold min-w-max font-mono hover:cursor-pointer"
+                >
                   {"Block Cards"}
                 </h1>
               </Link>

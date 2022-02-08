@@ -42,15 +42,13 @@ export function HomePage() {
 
   useEffect(() => {
     if (wallet) {
-      console.log(`found`);
-      console.log(wallet);
-      if (currentUser || null) {
+      console.log(currentUser);
+      if (currentUser !== (null || undefined || "")) {
         console.log(`logged in user key found: ${currentUser}`);
         getCard();
       } else {
         console.log(
-          `wallet found but no keys for current wallet_connection exist.
-             User must log in and save a key.`
+          "wallet connection ready but no keyfound. User must log in and save a key."
         );
       }
     } else {
@@ -64,12 +62,6 @@ export function HomePage() {
     owner_id: null,
     website_url: null,
   });
-  useEffect(() => {
-    if (currentUser) {
-      console.log(`New account decteted. Fetching business card.`);
-      getCard();
-    }
-  }, [currentUser]);
   const getCard = async () => {
     console.log(`Attempting to get card for ${currentUser}`);
     try {
@@ -92,6 +84,8 @@ export function HomePage() {
   };
   const addBlockchainExp = async () => {
     console.log(`Attempting to add ${bchainInput} for ${currentUser}`);
+    await callFunction("add_blockchain", { blockchain_name: bchainInput });
+    await getCard();
   };
   const addWebsite = async () => {
     console.log(`Attempting to website ${websiteInput} for ${currentUser}`);
@@ -117,7 +111,7 @@ export function HomePage() {
     await getCard();
   };
 
-  if (loading || currentUser === undefined) {
+  if (loading || currentUser === "undefined") {
     return (
       <div className="flex justify-center flex-1 h-[calc(100vh-50px)] flex-col items-center">
         <BallTriangle
@@ -145,7 +139,7 @@ export function HomePage() {
             <>
               <h1 id="welcome-header" className="text-5xl">
                 Welcome,{" "}
-                {currentUser != "" || currentUser != null ? (
+                {currentUser !== "" && currentUser != undefined ? (
                   <>{currentUser.split(".").shift()}.</>
                 ) : (
                   <p className=" font-$Times font-black text-xl mt-3 pl-[3px]">

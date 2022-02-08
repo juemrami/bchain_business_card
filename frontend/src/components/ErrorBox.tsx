@@ -13,6 +13,7 @@ type parsedError = {
 
 const parseContractErrorString = (str) => {
   let pattern = /panicked at .*.'/;
+  // console.log(str);
   let exracted = pattern.exec(str);
   let res = exracted[0];
   res = res.replace(`"`, "");
@@ -20,7 +21,7 @@ const parseContractErrorString = (str) => {
 };
 
 const ErrorBox = () => {
-  console.log("in error box");
+  // console.log("in error box");
   let { errorList: errorProps } = useErrors();
   const [errorList, setErrorList] = useState<parsedError[]>();
   const { clearError } = useErrors();
@@ -37,7 +38,7 @@ const ErrorBox = () => {
         let message = error.message;
         let contractError = false;
         // console.log(error);
-        if (message?.search("wasm execution failed") <= 0 || !message) {
+        if (message?.search("panicked at '") <= 0 || !message) {
           console.log("Non Smart Contract error passed to ErrorBox");
         } else {
           contractError = true;
@@ -53,13 +54,14 @@ const ErrorBox = () => {
       });
     }
     setErrorList(parsedErrors);
+    // console.log(errorProps);
   }, [errorProps]);
 
   //remove selected error from the list of errors
   //this should force a state update from the useEffect
   //above
 
-  console.log(errorList);
+  // console.log(errorList);
   if (errorList?.length == 0) {
     console.log("nothing to render");
     return <></>;
@@ -72,7 +74,9 @@ const ErrorBox = () => {
         border-danger border-1 rounded-sm 
         absolute ml-[15px] mt-[-20px] px-[2px]
         hover:cursor-pointer"
-        onClick={() => {clearError(null, true)}}
+        onClick={() => {
+          clearError(null, true);
+        }}
       >
         close all
       </div>

@@ -63,7 +63,7 @@ const TransactionProvider = ({ children }) => {
   //error management useEffect()
   useEffect(() => {
     if (!errorList?.includes(error) && error) {
-      console.log(`pushing error: ${error.message}`);
+      console.log("pushing new error: ", { error });
       setErrorList((prev) => [...(prev || []), error]);
     }
   }, [error]);

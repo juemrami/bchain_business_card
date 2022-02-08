@@ -1,5 +1,6 @@
 // Packages //
 import { useState, useEffect, useContext, createContext, Context } from "react";
+import ReactDOM from "react-dom";
 import {
   keyStores,
   connect,
@@ -54,11 +55,14 @@ export function NearProvider({ children }) {
         headers: {},
       };
       const near_connection = await connect(config);
-      console.log(`fetching wallet...`)
+      console.log(`fetching wallet...`);
       const wallet_connection = new WalletConnection(
         near_connection,
         process.env.NEXT_PUBLIC_CONTRACT_LOCALSTORAGE_PREFIX
       );
+      if (wallet_connection) {
+        console.log("wallet found", wallet_connection);
+      }
 
       if (typeof window !== "undefined") {
         const contract = new Contract(
@@ -71,9 +75,12 @@ export function NearProvider({ children }) {
         );
         setContract(contract);
       }
-      setCurrentUserId(wallet_connection.getAccountId());
-      setNear(near_connection);
-      setWallet(wallet_connection);
+
+      ReactDOM.unstable_batchedUpdates(() => {
+        setNear(near_connection);
+        setWallet(wallet_connection);
+        setCurrentUserId(wallet_connection.getAccountId());
+      });
     })();
   }, []);
 
