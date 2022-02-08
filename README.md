@@ -1,8 +1,7 @@
 # Blockchain Business Card
 
-**WARNING**. _This branch is my active development branch for nextjs. Sometimes it might not work because i accidentally pushed something_.
 
-This is NEAR chain dApp consisting a relatively simple smart contract written in rust and implemented with a react front end.
+This is NEAR chain dApp consisting a relatively simple smart contract written in rust and implemented with a Nextjs front end.
 
 The contract allows you to _"mint"_ a business card for 5 NEAR.
 Things you can do with you business card:
@@ -25,7 +24,7 @@ __To learn about the internals and the Rust smart contracts follow the README in
 -----
 ## Screenshots
 
-![site gif](https://i.imgur.com/46Xg4AJ.gif)
+![site gif](https://i.imgur.com/kxvtUN5.gif)
 
 ----
 
