@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "typeRoots": ["node_modules/@types"],
-    "types": ["node", "connect"],
+    "types": ["node"],
     "target": "es2021",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
