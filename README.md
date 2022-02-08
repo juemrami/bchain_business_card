@@ -1,6 +1,7 @@
 # Blockchain Business Card
 
-try it out here 
+try it out here
+
 https://block-cards.vercel.app/
 
 This is NEAR chain dApp consisting a relatively simple smart contract written in rust and implemented with a Nextjs front end.
