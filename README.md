@@ -1,5 +1,8 @@
 # Blockchain Business Card
 
+try it out here 
+https://block-cards.vercel.app/
+
 This is NEAR chain dApp consisting a relatively simple smart contract written in rust and implemented with a Nextjs front end.
 
 The contract allows you to _"mint"_ a business card for 5 NEAR.
