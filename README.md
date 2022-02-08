@@ -1,6 +1,5 @@
 # Blockchain Business Card
 
-
 This is NEAR chain dApp consisting a relatively simple smart contract written in rust and implemented with a Nextjs front end.
 
 The contract allows you to _"mint"_ a business card for 5 NEAR.
@@ -20,8 +19,6 @@ Alternatively,
 __To learn about the internals and the Rust smart contracts follow the README in [/Contract/](Contract/README.md)__
 
 -----
-
------
 ## Screenshots
 
 ![site gif](https://i.imgur.com/kxvtUN5.gif)
@@ -35,4 +32,3 @@ _Note. I have yet to figure out the economics. But it would be interesting to bu
 ---
 
 I have yet to figure out the economics. This was built for the NEARxEncode Bootcamp Jan 2022.
-
