@@ -104,7 +104,16 @@ const viewUserPage = (props) => {
 
   return (
     <div className="flex flex-col items-center">
-      <section id="business-card" className="mt-10 flex justify-center">
+      <div className="flex justify-center h-[48px] mt-10 flex-col items-center">
+        {loading && (
+          <BallTriangle
+            speed={1.2}
+            fill={error ? "danger" : "near-blue"}
+            className=""
+          />
+        )}
+      </div>
+      <section id="business-card" className="mt-5 flex justify-center">
         <UserBusinessCard card={card}></UserBusinessCard>
       </section>
       <section
