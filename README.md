@@ -1,4 +1,6 @@
-# Blockchain Business Card
+# Blockchain Business Card v1 
+
+https://youtu.be/fRxQGN6_fiU
 
 This is NEAR chain dApp consisting a relatively simple smart contract written in rust and implemented with a react front end.
 
