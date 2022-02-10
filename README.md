@@ -1,4 +1,4 @@
-# Blockchain Business Card
+# Blockchain Business Card v2
 
 try it out here
 
