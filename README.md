@@ -1,6 +1,8 @@
 # Blockchain Business Card v2
 
-try it out here
+> [!WARNING]
+> Demo site login is currently broken because it's still using the deprecated [`wallet.near.org`](https://wallet.near.org/) instead of the new Wallet Selector integration. I need to carve out time to fix this, it’s on my list!
+
 
 https://block-cards.vercel.app/
 
